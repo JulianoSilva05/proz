@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula: Conexão PHP com Banco de Dados</title>
+    <style>
+        /* Estilos Gerais */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            overflow: hidden;
+        }
+
+        /* Estrutura do Slide */
+        .slide {
+            box-sizing: border-box;
+            width: 100%;
+            height: 100vh;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 60px;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: flex;
+            opacity: 1;
+        }
+        
+        /* Conteúdo do Slide */
+        .slide-content {
+            max-width: 950px;
+            width: 100%;
+        }
+
+        /* Títulos */
+        h1 {
+            font-size: 2.8rem;
+            color: #005a9c;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        /* Textos e Listas */
+        p, li {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            text-align: left;
+        }
+        
+        ul, ol {
+            list-style-position: inside;
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        strong {
+            color: #005a9c;
+        }
+
+        /* Blocos de Código */
+        pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 1rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        code {
+            font-family: "Fira Code", "Courier New", monospace;
+        }
+
+        /* Elementos da Interface */
+        .navigation {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+        
+        .nav-button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            border: 2px solid #007bff;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .nav-button:hover {
+            background-color: white;
+            color: #007bff;
+        }
+        .nav-button:disabled {
+            background-color: #ccc;
+            border-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            font-size: 1rem;
+            color: #555;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 5px 10px;
+            border-radius: 5px;
+            z-index: 100;
+        }
+
+        .emoji {
+            font-size: 3.5rem;
+        }
+
+        .flex-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        .flex-item {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Estilos do Quiz */
+        .quiz-container {
+            width: 100%;
+            max-width: 800px;
+        }
+        .quiz-question {
+            font-size: 1.6rem;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .quiz-option {
+            padding: 20px;
+            font-size: 1.1rem;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: #fff;
+        }
+        .quiz-option:hover {
+            border-color: #007bff;
+            background-color: #f0f8ff;
+        }
+        .feedback-card {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .feedback-card.correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .feedback-card.incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .feedback-card p {
+            margin: 0;
+            text-align: center;
+            font-size: 1rem;
+        }
+        .feedback-card h3 {
+            margin-top: 0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <section class="slide active">
+        <div class="slide-content">
+            <span class="emoji">🔌</span>
+            <h1>Conexão PHP com Banco de Dados</h1>
+            <p style="text-align:center; font-size: 1.5rem;">Um guia passo a passo para conectar em ambientes <strong>Local</strong> e <strong>Online</strong>.</p>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="slide-content">
+            <h1>Dois Cenários: O Vizinho e a Ligação</h1>
+            <div class="flex-container">
+                <div class="flex-item">
+                    <h2>Cenário Local (O Vizinho 🏠)</h2>
+                    <ul>
+                        <li>Rápido e direto.</li>
+                        <li>PHP e Banco de Dados na mesma máquina.</li>
+                        <li><strong>Host:</strong> <code>localhost</code></li>
+                        <li><strong>Segurança:</strong> Mínima, ambiente controlado.</li>
+                    </ul>
+                </div>
+                <div class="flex-item">
+                    <h2>Cenário Online (A Ligação 📞)</h2>
+                    <ul>
+                        <li>Comunicação pela internet.</li>
+                        <li>PHP e BD em servidores diferentes.</li>
+                        <li><strong>Host:</strong> Um endereço de IP ou domínio.</li>
+                        <li><strong>Segurança:</strong> Crucial! (Firewalls, permissões).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="slide">
+        <div class="slide-content">
+            <h1>Os 4 Parâmetros da Conexão</h1>
+            <p style="text-align: center;">Toda conexão precisa de 4 informações, como se fosse um endereço:</p>
+            <ul>
+                <li><code>$host</code>: O endereço do servidor. Para onde vamos nos conectar? (Ex: <code>localhost</code>, <code>108.167.151.55</code>)</li>
+                <li><code>$usuario</code>: O nome de usuário. Quem está tentando se conectar? (Ex: <code>root</code>, <code>jul33718_aluno</code>)</li>
+                <li><code>$senha</code>: A senha de acesso. Qual a sua "palavra-chave"? (Ex: <code>""</code>, <code>Aluno@2025</code>)</li>
+                <li><code>$banco</code>: O nome do banco de dados. Em qual "sala" do servidor queremos entrar? (Ex: <code>aula_conexao</code>, <code>jul33718_bdant</code>)</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="slide" data-quiz="1">
+        <div class="quiz-container">
+            <h2 class="quiz-question">Para conectar a um banco de dados na <strong>mesma máquina</strong> que o script PHP, qual valor de <code>host</code> é o mais comum?</h2>
+            <div class="quiz-options">
+                <button class="quiz-option" onclick="checkAnswer(1, false, this)">O IP público do meu computador</button>
+                <button class="quiz-option" onclick="checkAnswer(1, true, this)">localhost ou 127.0.0.1</button>
+                <button class="quiz-option" onclick="checkAnswer(1, false, this)">O domínio do site (ex: meusite.com)</button>
+                <button class="quiz-option" onclick="checkAnswer(1, false, this)">root</button>
+            </div>
+            <div id="feedback-correct-1" class="feedback-card correct">
+                <h3>Você Acertou!</h3>
+            </div>
+            <div id="feedback-incorrect-1" class="feedback-card incorrect">
+                <h3>Ops, tente novamente!</h3>
+                <p><strong>Explicação:</strong> <code>localhost</code> é um nome reservado que sempre se refere à própria máquina, sendo a escolha padrão e mais eficiente para conexões locais.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="slide">
+        <div class="slide-content">
+            <span class="emoji">💻</span>
+            <h1>Atividade 1: Conexão Local</h1>
+            <p style="text-align:center; font-size: 1.5rem;">Vamos conectar ao banco de dados em nossa própria máquina.</p>
+        </div>
+    </section>
+    
+    <section class="slide">
+        <div class="slide-content">
+            <h2>Passo 1: Preparar o Ambiente XAMPP</h2>
+            <p>Primeiro, precisamos garantir que nosso servidor local esteja funcionando.</p>
+            <ol>
+                <li>Abra o <strong>Painel de Controle do XAMPP</strong>.</li>
+                <li>Na linha do módulo <strong>Apache</strong>, clique em <strong>Start</strong>. Ele deve ficar verde.</li>
+                <li>Na linha do módulo <strong>MySQL</strong>, clique em <strong>Start</strong>. Ele também deve ficar verde.</li>
+            </ol>
+            <p style="text-align:center; margin-top: 20px;"><strong>Se ambos estão verdes, nosso servidor local está no ar!</strong></p>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="slide-content">
+            <h2>Passo 2: Criar o Banco no phpMyAdmin</h2>
+            <p>Agora, vamos criar o "contêiner" para nossas tabelas.</p>
+            <ol>
+                <li>No painel do XAMPP, na linha do MySQL, clique no botão <strong>Admin</strong>. Isso abrirá o phpMyAdmin no seu navegador.</li>
+                <li>No menu à esquerda ou na aba superior, clique em <strong>"Bancos de dados"</strong>.</li>
+                <li>No campo "Criar banco de dados", digite o nome: <code>aula_conexao</code>.</li>
+                <li>Deixe a opção ao lado (Collation) como utf8mb4_general_ci<strong>"Criar"</strong>.</li>
+            </ol>
+             <p style="text-align:center; margin-top: 20px;"><strong>Pronto! O banco de dados <code>aula_conexao</code> foi criado.</strong></p>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="slide-content">
+            <h2>Passo 3: Escrever o Script PHP</h2>
+            <p>É hora de escrever o código que fará a mágica acontecer.</p>
+            <ol>
+                <li>Abra seu editor de código (VS Code, etc.).</li>
+                <li>Crie um novo arquivo e cole o código do próximo slide.</li>
+                <li>Salve o arquivo com o nome <code>conecta_local.php</code>.</li>
+                <li><strong>Onde salvar?</strong> Dentro da pasta <code>htdocs</code> do seu XAMPP (geralmente em <code>C:\xampp\htdocs</code>).</li>
+            </ol>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="slide-content">
+            <h2>Código: <code>conecta_local.php</code></h2>
+            <pre><code>&lt;?php
+// Parâmetros para a conexão local
+$host_local = "localhost";
+$usuario_local = "root";
+$senha_local = "";
+$banco_local = "aula_conexao";
+
+// 1. Tenta criar uma nova conexão com o banco
+$conexao_local = new mysqli($host_local, $usuario_local, $senha_local, $banco_local);
+
+// 2. Verifica se ocorreu algum erro na tentativa de conexão
+if ($conexao_local-&gt;connect_error) {
+    // Se houve um erro, interrompe o script e exibe o erro
+    die("Falha na conexão: " . $conexao_local-&gt;connect_error);
+}
+
+// 3. Se o script chegou até aqui, a conexão foi um sucesso!
+echo "Conectado ao banco de dados local com sucesso!";
+
+// 4. Fecha a conexão para liberar recursos do servidor
+$conexao_local-&gt;close();
+?&gt;</code></pre>
+        </div>
+    </section>
+    
+    <section class="slide">
+        <div class="slide-content">
+            <h2>Passo 4: Testar a Conexão Local</h2>
+            <p>Vamos ver se tudo funcionou como esperado.</p>
+            <ol>
+                <li>Abra o seu navegador de internet (Chrome, Firefox, etc.).</li>
+                <li>Na barra de endereços, digite: <code>http://localhost/conecta_local.php</code></li>
+                <li>Pressione Enter.</li>
+            </ol>
+            <p>Se você vir a mensagem <strong>"Conectado ao banco de dados local com sucesso!"</strong>, parabéns! Se aparecer uma mensagem de erro, leia com atenção. Ela geralmente diz qual foi o problema (ex: "Unknown database 'aula_conexao'" significa que o nome do banco está errado).</p>
+        </div>
+    </section>
+
+    <section class="slide" data-quiz="2">
+        <div class="quiz-container">
+            <h2 class="quiz-question">No código para conexão local com XAMPP, por que a variável <code>$senha_local</code> geralmente fica vazia (<code>""</code>)?</h2>
+            <div class="quiz-options">
+                <button class="quiz-option" onclick="checkAnswer(2, false, this)">Porque o PHP não precisa de senha</button>
+                <button class="quiz-option" onclick="checkAnswer(2, false, this)">Porque a senha é o nome do banco</button>
+                <button class="quiz-option" onclick="checkAnswer(2, true, this)">Porque o usuário 'root' do XAMPP vem sem senha por padrão</button>
+                <button class="quiz-option" onclick="checkAnswer(2, false, this)">Porque a conexão local não suporta senhas</button>
+            </div>
+            <div id="feedback-correct-2" class="feedback-card correct">
+                <h3>Você Acertou!</h3>
+            </div>
+            <div id="feedback-incorrect-2" class="feedback-card incorrect">
+                <h3>Ops, tente novamente!</h3>
+                <p><strong>Explicação:</strong> Para facilitar o desenvolvimento, a instalação padrão do XAMPP configura o superusuário 'root' sem uma senha. Em um servidor online (produção), isso seria uma falha grave de segurança!</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="slide">
+        <div class="slide-content">
+            <span class="emoji">🌐</span>
+            <h1>Atividade 2: Conexão Online</h1>
+            <p style="text-align:center; font-size: 1.5rem;">O desafio real: conectar a um servidor na internet.</p>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="slide-content">
+            <h2>Passo 1: Encontrar as Credenciais Online</h2>
+            <p>Diferente do ambiente local, no servidor online as credenciais não são padrão. Você precisa encontrá-las no seu painel de hospedagem.</p>
+            <ol>
+                <li>Acesse o painel de controle da sua hospedagem (cPanel é o mais comum).</li>
+                <li>Procure por uma seção chamada <strong>"Bancos de Dados"</strong> ou <strong>"Databases"</strong>.</li>
+                <li>Dentro dela, procure por <strong>"Bancos de Dados MySQL"</strong>. Lá estarão listados os bancos de dados e os usuários permitidos, que você deve usar no script. O host geralmente é informado na mesma página ou em uma seção de ajuda.</li>
+            </ol>
+            <p style="text-align:center;"><strong>Anote o Host, Nome do Banco, Usuário e a Senha.</strong></p>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="slide-content">
+            <h2>Passo 2: Liberar o Acesso Remoto (Firewall)</h2>
+            <p>Este é o passo mais importante e onde muitos erram! Precisamos dizer ao servidor para aceitar a "ligação" do nosso computador.</p>
+            <ol>
+                <li>No painel da hospedagem, na seção "Bancos de Dados", procure pela opção <strong>"Remote MySQL"</strong> ou <strong>"Acesso Remoto a BD"</strong>.</li>
+                <li>Nesta página, haverá um campo para adicionar um "Host de Acesso". Aqui você deve colocar o <strong>IP da sua internet</strong>. (Para descobrir, pesquise "qual o meu ip" no Google).</li>
+                <li>Cole o seu IP no campo e clique em <strong>"Adicionar host"</strong>.</li>
+            </ol>
+            <p>Ao fazer isso, você está criando uma regra no firewall do servidor que diz: "Conexões vindas deste IP estão autorizadas a tentar acessar o banco de dados".</p>
+        </div>
+    </section>
+
+    <section class="slide" data-quiz="3">
+        <div class="quiz-container">
+            <h2 class="quiz-question">Se você recebe um erro de "Connection timed out" ao tentar conectar ao banco online, qual é a causa mais provável?</h2>
+            <div class="quiz-options">
+                <button class="quiz-option" onclick="checkAnswer(3, false, this)">A senha do banco de dados está incorreta.</button>
+                <button class="quiz-option" onclick="checkAnswer(3, false, this)">O nome do banco de dados não existe.</button>
+                <button class="quiz-option" onclick="checkAnswer(3, false, this)">O script PHP contém um erro de sintaxe.</button>
+                <button class="quiz-option" onclick="checkAnswer(3, true, this)">O Firewall do servidor está bloqueando seu IP.</button>
+            </div>
+            <div id="feedback-correct-3" class="feedback-card correct">
+                <h3>Você Acertou!</h3>
+            </div>
+            <div id="feedback-incorrect-3" class="feedback-card incorrect">
+                <h3>Ops, tente novamente!</h3>
+                <p><strong>Explicação:</strong> Erros de "senha" ou "banco não existe" geralmente retornam "Access Denied". Um "Connection timed out" (tempo de conexão esgotado) significa que seu script não conseguiu sequer chegar ao servidor de banco de dados, o que quase sempre é um bloqueio de Firewall.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="slide-content">
+            <h2>Passo 3: Adaptar e Testar o Script Online</h2>
+            <p>A lógica do código é exatamente a mesma. A única coisa que muda são os valores das nossas 4 variáveis de conexão.</p>
+            <ol>
+                <li>Crie um novo arquivo, <code>conecta_online.php</code>, na sua pasta <code>htdocs</code>.</li>
+                <li>Cole o código do slide anterior, mas <strong>substitua os valores das variáveis</strong> pelos dados da sua hospedagem.</li>
+                <li>Salve o arquivo.</li>
+                <li>No navegador, acesse: <code>http://localhost/conecta_online.php</code></li>
+            </ol>
+            <p>Se a mensagem de sucesso aparecer, você conseguiu! Seu computador local se comunicou com o servidor online através da internet para acessar o banco de dados.</p>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="slide-content">
+            <h1>Conclusão e Boas Práticas</h1>
+            <ul>
+                <li>A lógica PHP para conectar é a mesma, o que muda são o <strong>endereço (host)</strong> e as <strong>permissões de acesso</strong>.</li>
+                <li>A maioria dos erros de conexão online está relacionada a <strong>Firewall (IP não autorizado)</strong> ou <strong>credenciais incorretas</strong>.</li>
+                <li><strong>Segurança é fundamental:</strong> Em projetos reais, nunca exponha senhas em código público e sempre crie usuários de banco com o mínimo de privilégios necessários.</li>
+            </ul>
+            <h2>Perguntas? 🤔</h2>
+        </div>
+    </section>
+    
+    <div class="navigation">
+        <button id="prevBtn" class="nav-button">Anterior</button>
+        <button id="nextBtn" class="nav-button">Próximo</button>
+    </div>
+    <div id="counter" class="slide-counter"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const counter = document.getElementById('counter');
+            let currentSlide = 0;
+
+            function showSlide(index) {
+                if (index < 0 || index >= slides.length) return;
+
+                slides[currentSlide].classList.remove('active');
+                currentSlide = index;
+                slides[currentSlide].classList.add('active');
+                
+                counter.textContent = `${currentSlide + 1} / ${slides.length}`;
+                
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === slides.length - 1;
+                
+                if (slides[currentSlide].hasAttribute('data-quiz')) {
+                    nextBtn.disabled = true;
+                }
+            }
+
+            function next() {
+                if (currentSlide < slides.length - 1) {
+                    showSlide(currentSlide + 1);
+                }
+            }
+
+            function prev() {
+                if (currentSlide > 0) {
+                    showSlide(currentSlide - 1);
+                }
+            }
+            
+            prevBtn.addEventListener('click', prev);
+            nextBtn.addEventListener('click', next);
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'ArrowRight' || event.key === 'PageDown') {
+                    if (!nextBtn.disabled) next();
+                } else if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+                    if (!prevBtn.disabled) prev();
+                }
+            });
+
+            showSlide(0);
+        });
+
+        function checkAnswer(quizId, isCorrect, element) {
+            const correctFeedback = document.getElementById(`feedback-correct-${quizId}`);
+            const incorrectFeedback = document.getElementById(`feedback-incorrect-${quizId}`);
+            
+            correctFeedback.style.display = 'none';
+            incorrectFeedback.style.display = 'none';
+
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.style.borderColor = '#ccc';
+                opt.style.backgroundColor = '#fff';
+            });
+
+            if (isCorrect) {
+                correctFeedback.style.display = 'block';
+                element.style.borderColor = '#28a745';
+                element.style.backgroundColor = '#d4edda';
+                
+                document.getElementById('nextBtn').disabled = false;
+
+                setTimeout(() => {
+                    if (!document.getElementById('nextBtn').disabled) {
+                         document.getElementById('nextBtn').click();
+                    }
+                }, 1800);
+
+            } else {
+                incorrectFeedback.style.display = 'block';
+                element.style.borderColor = '#dc3545';
+                element.style.backgroundColor = '#f8d7da';
+            }
+        }
+    </script>
+</body>
+</html>

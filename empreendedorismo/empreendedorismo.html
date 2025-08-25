@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jornada da Startup: Empreendedorismo e Inovação</title>
+
+    <style>
+        :root {
+            --primary-color: #0d47a1; /* Azul escuro corporativo */
+            --secondary-color: #1976d2; /* Azul médio */
+            --light-bg: #f5f5f5; /* Fundo cinza claro */
+            --text-color: #212121;
+            --accent-color: #ffab40; /* Laranja para destaque */
+            --green-correct: #e8f5e9;
+            --red-incorrect: #ffebee;
+            --green-text: #2e7d32;
+            --red-text: #c62828;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        main {
+            padding-top: 60px;
+        }
+
+        /* --- NAVEGAÇÃO --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: var(--primary-color);
+            padding: 0.8rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.2s;
+            white-space: nowrap;
+            border: 2px solid transparent;
+        }
+
+        nav a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        nav a.active {
+            background-color: var(--accent-color);
+            color: #fff;
+        }
+        
+        /* --- ESTRUTURA DOS SLIDES --- */
+        section {
+            width: 100%;
+        }
+
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem 4rem;
+            box-sizing: border-box;
+        }
+        
+        .slide img {
+            max-width: 80%;
+            max-height: 350px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            background-color: white;
+            padding: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .slide.title-slide {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+        }
+
+        .title-slide h1 {
+            font-size: 3.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .title-slide h3 {
+            font-size: 1.5rem;
+            font-weight: 300;
+        }
+
+        .slide h2 {
+            font-size: 2.8rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            text-align: center;
+            border-bottom: 4px solid var(--accent-color);
+            padding-bottom: 1rem;
+        }
+
+        .slide p, .slide li {
+            font-size: 1.2rem;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .slide ul, .slide ol {
+            text-align: left;
+            padding-left: 40px;
+            max-width: 750px;
+        }
+        
+        .activity-slide {
+            background-color: var(--accent-color);
+            color: #fff;
+        }
+        
+        .activity-slide h2 {
+            color: white;
+            border-bottom-color: white;
+        }
+        
+        .activity-slide p, .activity-slide li {
+            color: white;
+        }
+        
+        /* --- COMPONENTES (QUIZ, BOTÕES) --- */
+        .quiz-container {
+            background-color: #fff;
+            width: 100%;
+        }
+
+        .quiz-question {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 1rem;
+        }
+
+        ul.quiz-options {
+            list-style-type: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        ul.quiz-options li {
+            background-color: #f0f0f0;
+            margin: 0.8rem 0;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 1rem;
+        }
+        
+        li.correct {
+            background-color: var(--green-correct) !important;
+            color: var(--green-text);
+            border-color: var(--green-text) !important;
+        }
+
+        li.incorrect {
+            background-color: var(--red-incorrect) !important;
+            color: var(--red-text);
+            border-color: var(--red-text) !important;
+        }
+        
+        #back-to-top-btn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            background-color: var(--secondary-color);
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 50%;
+            font-size: 18px;
+        }
+        
+        /* --- MENU HAMBÚRGUER E NAVEGAÇÃO MÓVEL --- */
+        .hamburger-menu {
+            display: none;
+            cursor: pointer;
+            padding: 10px;
+        }
+        
+        .hamburger-menu div {
+            width: 30px;
+            height: 3px;
+            background-color: white;
+            margin: 6px 0;
+            transition: 0.4s;
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 70%;
+            max-width: 300px;
+            height: 100%;
+            background-color: #ffffff; /* CORRIGIDO: Fundo branco para alto contraste */
+            box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+            transition: left 0.3s ease-in-out;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            padding-top: 60px;
+        }
+        
+        .mobile-nav a {
+            padding: 18px 25px;
+            font-size: 1.1rem;
+            color: var(--primary-color); /* CORRIGIDO: Texto escuro para contraste */
+            border-bottom: 1px solid #eee; /* CORRIGIDO: Separador suave */
+            font-weight: bold;
+        }
+        
+        .mobile-nav a:hover {
+            background-color: #f0f0f0; /* Feedback ao tocar */
+        }
+        
+        .mobile-nav a.active {
+            background-color: var(--accent-color); /* Destaque laranja */
+            color: white; /* Texto branco no destaque */
+        }
+        
+        .mobile-nav.show {
+            left: 0;
+        }
+        
+        /* --- MEDIA QUERIES PARA RESPONSIVIDADE --- */
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .hamburger-menu {
+                display: block;
+                position: absolute;
+                right: 1rem;
+                top: 0.5rem;
+            }
+            
+            nav {
+                justify-content: flex-start;
+            }
+
+            .slide {
+                padding: 3rem 1.5rem;
+            }
+            
+            .title-slide h1 { font-size: 2.5rem; }
+            .title-slide h3 { font-size: 1.2rem; }
+            .slide h2 { font-size: 2rem; }
+            .slide p, .slide li { font-size: 1rem; }
+            .slide img { max-width: 100%; }
+        }
+
+    </style>
+</head>
+
+<body>
+    
+    <button onclick="topFunction()" id="back-to-top-btn" title="Voltar ao topo">▲</button>
+
+    <nav>
+        <div class="nav-links">
+            <a href="#tema1">Tema 01</a>
+            <a href="#tema2">Tema 02</a>
+            <a href="#tema3">Tema 03</a>
+            <a href="#tema4">Tema 04</a>
+            <a href="#tema5">Tema 05</a>
+            <a href="#tema6">Tema 06</a>
+            <a href="#projeto-final">Projeto Final</a>
+        </div>
+        <div class="hamburger-menu">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+    
+    <div class="mobile-nav">
+        <a href="#tema1">Tema 01</a>
+        <a href="#tema2">Tema 02</a>
+        <a href="#tema3">Tema 03</a>
+        <a href="#tema4">Tema 04</a>
+        <a href="#tema5">Tema 05</a>
+        <a href="#tema6">Tema 06</a>
+        <a href="#projeto-final">Projeto Final</a>
+    </div>
+
+    <main>
+        <section id="tema1">
+            <div class="slide title-slide">
+                <h1>Tema 01: A Semente da Ideia</h1>
+                <h3>O que é Empreendedorismo e Como Encontrar um Problema Real</h3>
+            </div>
+            <div class="slide">
+                <h2>O Que é Empreender?</h2>
+                <p>Empreendedorismo é a jornada de transformar uma ideia inovadora num negócio que resolve um problema real. Envolve identificar oportunidades, planear, assumir riscos calculados e criar valor para a sociedade.</p>
+            </div>
+            <div class="slide activity-slide">
+                <h2>Atividade Prática 1: Brainstorming de Problemas</h2>
+                <ol>
+                    <li>Formem equipas e listem 10 problemas ou "dores" que vocês observam no mundo real.</li>
+                    <li>Escolham o problema que a vossa equipa está mais motivada a resolver.</li>
+                    <li>Dêem um nome provisório para o vosso projeto/startup.</li>
+                </ol>
+                <p><strong>Entregável:</strong> Um documento com o nome da equipa e o problema escolhido.</p>
+            </div>
+        </section>
+
+        <section id="tema2">
+            <div class="slide title-slide">
+                <h1>Tema 02: Desenhando o Mapa do Sucesso</h1>
+                <h3>Do Canvas à Análise Estratégica SWOT</h3>
+            </div>
+            <div class="slide">
+                <h2>Business Model Canvas</h2>
+                <p>O Canvas é uma ferramenta visual para desenvolver modelos de negócio. Ajuda a organizar as ideias e a entender como as partes da sua startup se conectam.</p>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Business_Model_Canvas.png/1280px-Business_Model_Canvas.png" alt="Business Model Canvas em branco">
+            </div>
+            <div class="slide">
+                <h2>Análise SWOT (FOFA)</h2>
+                <p>A análise SWOT (Forças, Oportunidades, Fraquezas e Ameaças) é crucial para entender o posicionamento da sua startup no mercado.</p>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/SWOT_pt.svg/1280px-SWOT_pt.svg.png" alt="Matriz de Análise SWOT">
+            </div>
+            <div class="slide activity-slide">
+                <h2>Atividade Prática 2: Estruturando a Ideia</h2>
+                <ol>
+                    <li>Preencham o Business Model Canvas para a vossa ideia.</li>
+                    <li>Façam a Análise SWOT, listando pelo menos 2 itens para cada quadrante.</li>
+                </ol>
+                <p><strong>Entregável:</strong> Uma imagem do vosso Canvas e da vossa Análise SWOT.</p>
+            </div>
+        </section>
+        
+        <section id="tema3">
+             <div class="slide title-slide">
+                <h1>Tema 03: A Alma e o Corpo da Startup</h1>
+            </div>
+             <div class="slide activity-slide">
+                <h2>Atividade Prática 3: Construindo a Identidade</h2>
+                <p><strong>Entregável:</strong> Um documento com a Missão, Visão, Valores e o Organograma da vossa startup.</p>
+            </div>
+        </section>
+        <section id="tema4">
+             <div class="slide title-slide">
+                <h1>Tema 04: Inovação com Propósito</h1>
+            </div>
+             <div class="slide activity-slide">
+                <h2>Atividade Prática 4: Mapeando o Impacto</h2>
+                <p><strong>Entregável:</strong> Um slide que apresente 3 ações sustentáveis e o ODS relacionado.</p>
+            </div>
+        </section>
+        <section id="tema5">
+             <div class="slide title-slide">
+                <h1>Tema 05: Da Ideia ao Produto Mínimo Viável (MVP)</h1>
+            </div>
+             <div class="slide activity-slide">
+                <h2>Atividade Prática 5: Criando o Protótipo</h2>
+                <p><strong>Entregável:</strong> Um documento com as funcionalidades essenciais e as imagens do vosso protótipo.</p>
+            </div>
+        </section>
+        <section id="tema6">
+             <div class="slide title-slide">
+                <h1>Tema 06: A Arte de Vender a Ideia</h1>
+            </div>
+             <div class="slide activity-slide">
+                <h2>Atividade Prática 6: Preparando a Apresentação</h2>
+                <p><strong>Entregável:</strong> Um documento com o wireframe da landing page e o roteiro do video pitch.</p>
+            </div>
+        </section>
+
+        <section id="projeto-final">
+             <div class="slide title-slide">
+                <h1>Projeto Final: Apresentação da Startup</h1>
+            </div>
+            <div class="slide">
+                <h2>A Entrega Final</h2>
+                <p>Consolidem todo o trabalho desenvolvido num projeto final coeso. A vossa equipa deverá entregar:</p>
+                <ul>
+                    <li>Plano de Negócios Simplificado (Canvas, SWOT, etc.).</li>
+                    <li>Site (Landing Page) funcional.</li>
+                    <li>Protótipo Funcional (link ou imagens).</li>
+                    <li>Video Pitch de 1 a 2 minutos.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            // --- LÓGICA DE NAVEGAÇÃO E VISIBILIDADE ---
+            const slides = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav a');
+            const backToTopButton = document.getElementById('back-to-top-btn');
+            const hamburger = document.querySelector('.hamburger-menu');
+            const mobileNav = document.querySelector('.mobile-nav');
+
+            // Controla o menu hambúrguer
+            hamburger.addEventListener('click', () => {
+                mobileNav.classList.toggle('show');
+            });
+            
+            // Fecha o menu ao clicar num link
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileNav.classList.remove('show');
+                });
+            });
+
+            function updateActiveNavLink() {
+                let currentSection = '';
+                slides.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (scrollY >= sectionTop - 70) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+                
+                // Combina ambas as listas de links para atualizar a classe 'active'
+                const allLinks = [...navLinks, ...mobileNavLinks];
+                allLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${currentSection}`) {
+                        link.classList.add('active');
+                    }
+                });
+                
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    backToTopButton.style.display = "block";
+                } else {
+                    backToTopButton.style.display = "none";
+                }
+            }
+            
+            window.addEventListener('scroll', updateActiveNavLink);
+            
+            // --- NAVEGAÇÃO COM TECLADO/CANETA ---
+            const slideElements = document.querySelectorAll('.slide');
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'ArrowRight' || event.key === 'PageDown') {
+                    event.preventDefault();
+                    const currentScroll = window.scrollY;
+                    for (const slide of slideElements) {
+                        if (slide.offsetTop > currentScroll + 70) { 
+                            window.scrollTo({ top: slide.offsetTop - 60, behavior: 'smooth' });
+                            break;
+                        }
+                    }
+                }
+                if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+                    event.preventDefault();
+                    const currentScroll = window.scrollY;
+                    for (let i = slideElements.length - 1; i >= 0; i--) {
+                        const slide = slideElements[i];
+                        if (slide.offsetTop < currentScroll - 70) {
+                            window.scrollTo({ top: slide.offsetTop - 60, behavior: 'smooth' });
+                            break;
+                        }
+                    }
+                }
+            });
+            
+            // --- FUNÇÃO PARA O BOTÃO VOLTAR AO TOPO ---
+            window.topFunction = function() {
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
+        });
+    </script>
+</body>
+
+</html>
