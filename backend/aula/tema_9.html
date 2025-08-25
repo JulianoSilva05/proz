@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aula: Conexão PHP com Banco de Dados</title>
+    <title>Aula Completa: PHP e Banco de Dados</title>
     <style>
         /* Estilos Gerais */
         body, html {
@@ -32,6 +32,7 @@
             left: 0;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
+            overflow-y: auto; /* Permite rolar slides com muito conteúdo */
         }
 
         .slide.active {
@@ -43,6 +44,7 @@
         .slide-content {
             max-width: 950px;
             width: 100%;
+            padding-bottom: 80px; /* Espaço para não cobrir com a navegação */
         }
 
         /* Títulos */
@@ -213,7 +215,69 @@
         .feedback-card h3 {
             margin-top: 0;
         }
-
+        
+        /* Estilos para a nova atividade */
+        .link-visualizar, .link-voltar {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        .container {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: left;
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        button[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+        button[type="submit"]:hover {
+            background-color: #218838;
+        }
+        .tabela-dados {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .tabela-dados th, .tabela-dados td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .tabela-dados th {
+            background-color: #007bff;
+            color: white;
+        }
+        .tabela-dados tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
     </style>
 </head>
 <body>
@@ -313,7 +377,7 @@
                 <li>No painel do XAMPP, na linha do MySQL, clique no botão <strong>Admin</strong>. Isso abrirá o phpMyAdmin no seu navegador.</li>
                 <li>No menu à esquerda ou na aba superior, clique em <strong>"Bancos de dados"</strong>.</li>
                 <li>No campo "Criar banco de dados", digite o nome: <code>aula_conexao</code>.</li>
-                <li>Deixe a opção ao lado (Collation) como utf8mb4_general_ci<strong>"Criar"</strong>.</li>
+                <li>Deixe a opção ao lado (Collation) como está (ou `utf8mb4_general_ci`) e clique em <strong>"Criar"</strong>.</li>
             </ol>
              <p style="text-align:center; margin-top: 20px;"><strong>Pronto! O banco de dados <code>aula_conexao</code> foi criado.</strong></p>
         </div>
@@ -451,11 +515,181 @@ $conexao_local-&gt;close();
             <p>A lógica do código é exatamente a mesma. A única coisa que muda são os valores das nossas 4 variáveis de conexão.</p>
             <ol>
                 <li>Crie um novo arquivo, <code>conecta_online.php</code>, na sua pasta <code>htdocs</code>.</li>
-                <li>Cole o código do slide anterior, mas <strong>substitua os valores das variáveis</strong> pelos dados da sua hospedagem.</li>
+                <li>Cole o código de conexão, mas <strong>substitua os valores das variáveis</strong> pelos dados da sua hospedagem.</li>
                 <li>Salve o arquivo.</li>
                 <li>No navegador, acesse: <code>http://localhost/conecta_online.php</code></li>
             </ol>
             <p>Se a mensagem de sucesso aparecer, você conseguiu! Seu computador local se comunicou com o servidor online através da internet para acessar o banco de dados.</p>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="slide-content">
+            <span class="emoji">🚀</span>
+            <h1>Projeto Prático: Cadastro de Pessoas</h1>
+            <h2 style="text-align:center; font-size: 1.5rem;">Vamos aplicar tudo o que aprendemos para criar um sistema de cadastro completo, do zero!</h2>
+            <p>Neste projeto, vamos criar a estrutura no banco de dados, desenvolver um formulário para inserir pessoas e uma página para listar todos os cadastrados.</p>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="slide-content">
+            <h1>Etapa 1: Criando a Tabela no Banco de Dados</h1>
+            <p>Antes de programar, precisamos de um lugar para guardar os dados. Vamos criar uma tabela chamada `pessoas`.</p>
+            <ol>
+                <li>Verifique se o <strong>Apache</strong> e o <strong>MySQL</strong> estão iniciados no XAMPP.</li>
+                <li>Abra o <strong>phpMyAdmin</strong> (clicando em "Admin" no XAMPP).</li>
+                <li>No menu à esquerda, clique no banco que já criamos: <code>aula_conexao</code>.</li>
+                <li>Na tela principal, em "Criar tabela", digite o nome `pessoas`.</li>
+                <li>Defina o número de colunas como <strong>3</strong> e clique em "Executar".</li>
+                <li>Agora, preencha os detalhes das colunas assim:
+                    <ul>
+                        <li><strong>Coluna 1:</strong> Nome: `id`, Tipo: `INT`, marque a caixa `A_I` (AUTO_INCREMENT). O phpMyAdmin vai sugerir criar uma chave primária (PRIMARY), apenas confirme.</li>
+                        <li><strong>Coluna 2:</strong> Nome: `nome`, Tipo: `VARCHAR`, Tamanho: `255`.</li>
+                        <li><strong>Coluna 3:</strong> Nome: `email`, Tipo: `VARCHAR`, Tamanho: `255`.</li>
+                    </ul>
+                </li>
+                <li>Clique em <strong>"Guardar"</strong> no final da página.</li>
+            </ol>
+            <p style="text-align:center; margin-top:15px;"><strong>Pronto! Nossa "gaveta" para guardar os dados das pessoas está criada.</strong></p>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="slide-content">
+            <h1>Etapa 2: Criando o Formulário de Cadastro</h1>
+            <p>Precisamos de uma interface para o usuário digitar os dados. Crie um novo arquivo no VS Code e salve como `formulario.php` na pasta `htdocs`.</p>
+            <h2>Código: <code>formulario.php</code></h2>
+            <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-BR"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Cadastro de Pessoas&lt;/title&gt;
+&lt;/head&gt;
+&lt;body style="font-family: sans-serif; max-width: 600px; margin: 50px auto; background-color: #f0f2f5;"&gt;
+    &lt;div style="background-color: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"&gt;
+        &lt;h1&gt;Formulário de Cadastro&lt;/h1&gt;
+        &lt;form action="cadastrar.php" method="POST"&gt;
+            &lt;label for="nome"&gt;Nome:&lt;/label&gt;&lt;br&gt;
+            &lt;input type="text" name="nome" id="nome" required style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box;"&gt;
+            
+            &lt;label for="email"&gt;Email:&lt;/label&gt;&lt;br&gt;
+            &lt;input type="email" name="email" id="email" required style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box;"&gt;
+            
+            &lt;button type="submit" style="width: 100%; padding: 12px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1.1rem;"&gt;Cadastrar&lt;/button&gt;
+        &lt;/form&gt;
+        &lt;a href="visualizar.php" style="display: block; margin-top: 20px; text-align: center; font-size: 1.2rem;"&gt;Ver Pessoas Cadastradas&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+            <p>Note que o formulário envia os dados para um arquivo chamado `cadastrar.php` usando o método `POST`.</p>
+        </div>
+    </section>
+    
+    <section class="slide">
+        <div class="slide-content">
+            <h1>Etapa 3: Programando a Inserção no Banco</h1>
+            <p>Este é o "cérebro" do sistema. Crie o arquivo `cadastrar.php` para receber os dados do formulário e salvá-los no banco.</p>
+            <h2>Código: <code>cadastrar.php</code></h2>
+            <pre><code>&lt;?php
+// 1. DADOS DE CONEXÃO
+$host = "localhost";
+$usuario = "root";
+$senha = "";
+$banco = "aula_conexao";
+
+// 2. REALIZAR A CONEXÃO
+$conexao = new mysqli($host, $usuario, $senha, $banco);
+if ($conexao-&gt;connect_error) {
+    die("Falha na conexão: " . $conexao-&gt;connect_error);
+}
+
+// 3. RECEBER OS DADOS DO FORMULÁRIO
+$nome = $_POST['nome'];
+$email = $_POST['email'];
+
+// 4. CRIAR O COMANDO SQL PARA INSERIR OS DADOS
+$sql = "INSERT INTO pessoas (nome, email) VALUES ('$nome', '$email')";
+
+// 5. EXECUTAR O COMANDO E VERIFICAR
+if ($conexao-&gt;query($sql) === TRUE) {
+    echo "&lt;h1&gt;Pessoa cadastrada com sucesso!&lt;/h1&gt;";
+    // Redireciona para o formulário após 2 segundos
+    header("refresh:2;url=formulario.php");
+} else {
+    echo "Erro ao cadastrar: " . $conexao-&gt;error;
+}
+
+// 6. FECHAR A CONEXÃO
+$conexao-&gt;close();
+?&gt;
+</code></pre>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="slide-content">
+            <h1>Etapa 4: Criando a Página de Visualização</h1>
+            <p>Agora, vamos criar uma página para buscar todos os registros no banco e exibi-los em uma tabela. Crie o arquivo `visualizar.php`.</p>
+            <h2>Código: <code>visualizar.php</code></h2>
+            <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-BR"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Pessoas Cadastradas&lt;/title&gt;
+&lt;/head&gt;
+&lt;body style="font-family: sans-serif; max-width: 800px; margin: 50px auto; background-color: #f0f2f5;"&gt;
+&lt;div class="container"&gt;
+    &lt;h1&gt;Lista de Pessoas Cadastradas&lt;/h1&gt;
+    &lt;table class="tabela-dados"&gt;
+        &lt;thead&gt;
+            &lt;tr&gt;&lt;th&gt;ID&lt;/th&gt;&lt;th&gt;Nome&lt;/th&gt;&lt;th&gt;Email&lt;/th&gt;&lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+            &lt;?php
+            $conexao = new mysqli("localhost", "root", "", "aula_conexao");
+            if ($conexao-&gt;connect_error) { die("Falha na conexão: " . $conexao-&gt;connect_error); }
+            
+            $sql = "SELECT id, nome, email FROM pessoas";
+            $resultado = $conexao-&gt;query($sql);
+            
+            if ($resultado-&gt;num_rows > 0) {
+                while($linha = $resultado-&gt;fetch_assoc()) {
+                    echo "&lt;tr&gt;";
+                    echo "&lt;td&gt;" . htmlspecialchars($linha["id"]) . "&lt;/td&gt;";
+                    echo "&lt;td&gt;" . htmlspecialchars($linha["nome"]) . "&lt;/td&gt;";
+                    echo "&lt;td&gt;" . htmlspecialchars($linha["email"]) . "&lt;/td&gt;";
+                    echo "&lt;/tr&gt;";
+                }
+            } else {
+                echo "&lt;tr&gt;&lt;td colspan='3'&gt;Nenhuma pessoa cadastrada.&lt;/td&gt;&lt;/tr&gt;";
+            }
+            $conexao-&gt;close();
+            ?&gt;
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+    &lt;a href="formulario.php" class="link-voltar" style="display: block; margin-top: 20px; text-align: center; font-size: 1.2rem;"&gt;Voltar para o Cadastro&lt;/a&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="slide-content">
+            <h1>Etapa 5: Testando o Projeto Completo</h1>
+            <p>Com todos os arquivos criados, é hora de testar!</p>
+            <ol>
+                <li>Certifique-se de que os arquivos `formulario.php`, `cadastrar.php` e `visualizar.php` estão na pasta `htdocs`.</li>
+                <li>Abra seu navegador e acesse: <strong><code>http://localhost/formulario.php</code></strong></li>
+                <li>Preencha o formulário com um nome e um e-mail e clique em "Cadastrar".</li>
+                <li>Você deverá ver a mensagem de sucesso e ser redirecionado de volta ao formulário.</li>
+                <li>Clique no link "Ver Pessoas Cadastradas" (ou acesse diretamente <code>http://localhost/visualizar.php</code>).</li>
+                <li>Os dados que você acabou de cadastrar devem aparecer na tabela! 🎉</li>
+            </ol>
+            <p><strong>Parabéns!</strong> Você construiu seu primeiro sistema web com PHP e banco de dados, cobrindo as operações essenciais de inserção (Create) e leitura (Read) de dados.</p>
         </div>
     </section>
 
