@@ -18,7 +18,7 @@
             /* Cinza escuro para texto */
             --light-gray: #f5f5f5;
             --white: #ffffff;
-            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
         /* Estilos Gerais */
@@ -40,14 +40,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 10px;
+            box-sizing: border-box;
         }
 
         /* Estilo de cada Slide */
         .slide {
             display: none;
-            width: 95%;
+            width: 100%;
             max-width: 1000px;
-            height: 90%;
+            height: 100%;
             max-height: 650px;
             background-color: var(--white);
             border-radius: 16px;
@@ -64,7 +66,8 @@
             gap: 40px;
             align-items: center;
             width: 100%;
-            height: 100%;
+            flex: 1;
+            /* Faz o conteúdo ocupar o espaço disponível */
         }
 
         .text-content {
@@ -153,7 +156,7 @@
             width: 100%;
             padding: 15px;
             margin: 10px 0;
-            font-size: 1.1em;
+            font-size: 1em;
             text-align: left;
             border: 2px solid #ddd;
             border-radius: 8px;
@@ -191,6 +194,66 @@
             background-color: #fffbe6;
             border-radius: 8px;
             color: #6d5b0f;
+            text-align: left;
+        }
+
+        /* #################### MEDIA QUERIES PARA RESPONSIVIDADE #################### */
+        @media (max-width: 768px) {
+            body {
+                overflow: auto;
+            }
+
+            /* Permite rolagem no corpo da página em mobile */
+
+            .slide-container {
+                padding: 0;
+            }
+
+            .slide {
+                width: 100%;
+                height: 100%;
+                min-height: 100vh;
+                /* Slide ocupa a tela inteira */
+                max-height: none;
+                border-radius: 0;
+                padding: 25px 20px;
+                justify-content: flex-start;
+                /* Alinha conteúdo no topo */
+            }
+
+            .slide-content {
+                flex-direction: column;
+                /* Empilha texto e imagem verticalmente */
+                gap: 20px;
+                height: auto;
+            }
+
+            .image-content img {
+                max-height: 250px;
+                /* Reduz altura máxima da imagem */
+            }
+
+            /* Reduz o tamanho das fontes para caber na tela */
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.8em;
+            }
+
+            h3 {
+                font-size: 1.4em;
+            }
+
+            p,
+            li {
+                font-size: 1em;
+            }
+
+            .quiz-option {
+                font-size: 0.95em;
+            }
         }
     </style>
 </head>
@@ -225,15 +288,15 @@
             <div class="slide-content">
                 <div class="text-content">
                     <p><strong>Emoções:</strong> São reações químicas e neurais, puramente instintivas e universais.
-                        Elas são respostas automáticas e de curta duração a um estímulo. [cite_start]Pense nelas como um
-                        "alarme" do corpo. [cite: 23, 35]</p>
+                        Elas são respostas automáticas e de curta duração a um estímulo. Pense nelas como um "alarme" do
+                        corpo.</p>
                     <ul>
-                        [cite_start]<li><strong>Exemplos:</strong> Medo ao ver um cachorro bravo, alegria ao receber uma
-                            boa notícia, raiva ao ser interrompido no trânsito. [cite: 25]</li>
+                        <li><strong>Exemplos:</strong> Medo ao ver um cachorro bravo, alegria ao receber uma boa
+                            notícia, raiva ao ser interrompido no trânsito.</li>
                     </ul>
                     <p><strong>Sentimentos:</strong> São a nossa interpretação e avaliação cognitiva das emoções. Eles
-                        duram mais e são influenciados por nossas memórias, crenças e experiências. [cite_start]É como a
-                        "história" que contamos a nós mesmos sobre a emoção que sentimos. [cite: 28]</p>
+                        duram mais e são influenciados por nossas memórias, crenças e experiências. É como a "história"
+                        que contamos a nós mesmos sobre a emoção que sentimos.</p>
                     <ul>
                         <li><strong>Exemplo Prático:</strong> Seu chefe faz uma crítica ao seu trabalho. A
                             <strong>emoção</strong> imediata pode ser surpresa ou raiva. O <strong>sentimento</strong>
@@ -257,9 +320,9 @@
                 <button class="quiz-option" onclick="checkAnswer(this, true)">B) Sentimento</button>
                 <button class="quiz-option" onclick="checkAnswer(this, false)">C) Reação Instintiva</button>
                 <div class="explanation-box">
-                    <strong>Incorreto.</strong> A resposta certa é <strong>Sentimento</strong>. [cite_start]A raiva é a
-                    emoção inicial, mas a "frustração" é a interpretação cognitiva e a história que você cria a partir
-                    dela, o que define um sentimento. [cite: 28]
+                    <strong>Incorreto.</strong> A resposta certa é <strong>Sentimento</strong>. A raiva é a emoção
+                    inicial, mas a "frustração" é a interpretação cognitiva e a história que você cria a partir dela, o
+                    que define um sentimento.
                 </div>
             </div>
         </div>
@@ -271,13 +334,12 @@
                     <p>As emoções podem ser categorizadas para melhor compreensão:</p>
                     <ul>
                         <li><strong>Primárias:</strong> São universais e fáceis de identificar. Estão ligadas às nossas
-                            reações mais instintivas. [cite_start]Ex: Medo, raiva, alegria, tristeza. [cite: 42, 45]
-                        </li>
+                            reações mais instintivas. Ex: Medo, raiva, alegria, tristeza.</li>
                         <li><strong>Secundárias:</strong> São mais complexas e sutis, geralmente uma mistura de emoções
-                            primárias. [cite_start]Ex: Ciúmes (medo + raiva), culpa, vergonha. [cite: 43, 46]</li>
+                            primárias. Ex: Ciúmes (medo + raiva), culpa, vergonha.</li>
                         <li><strong>De Fundo:</strong> Relacionam-se ao nosso estado de bem-estar geral. São menos
-                            intensas, mas constantes, e somente a própria pessoa pode percebê-las. [cite_start]Ex:
-                            Calma, tensão, bem-estar. [cite: 44, 47]</li>
+                            intensas, mas constantes, e somente a própria pessoa pode percebê-las. Ex: Calma, tensão,
+                            bem-estar.</li>
                     </ul>
                     <h3>Exemplo Prático:</h3>
                     <p>Você está ansioso para uma apresentação. A <strong>emoção de fundo</strong> é a tensão. Ao pensar
@@ -300,9 +362,8 @@
                 <button class="quiz-option" onclick="checkAnswer(this, false)">B) Emoção Secundária</button>
                 <button class="quiz-option" onclick="checkAnswer(this, false)">C) Emoção Primária</button>
                 <div class="explanation-box">
-                    <strong>Incorreto.</strong> A resposta correta é <strong>Emoção de Fundo</strong>. [cite_start]A
-                    calma é um estado de ser contínuo e interno, não sendo facilmente perceptível pelos outros. [cite:
-                    44, 47]
+                    <strong>Incorreto.</strong> A resposta correta é <strong>Emoção de Fundo</strong>. A calma é um
+                    estado de ser contínuo e interno, não sendo facilmente perceptível pelos outros.
                 </div>
             </div>
         </div>
@@ -311,11 +372,11 @@
             <h2>O que é Inteligência Emocional (IE)?</h2>
             <div class="slide-content">
                 <div class="text-content">
-                    [cite_start]<p>É um conjunto de competências que permite perceber, processar, compreender e
-                        gerenciar as próprias emoções e as dos outros de forma eficaz. [cite: 56, 57]</p>
-                    [cite_start]<p>Importante: Ter IE <strong>não é suprimir ou controlar</strong> as emoções, mas sim
-                        usá-las a seu favor de forma consciente e construtiva para tomar melhores decisões e construir
-                        relacionamentos saudáveis. [cite: 61, 62, 64]</p>
+                    <p>É um conjunto de competências que permite perceber, processar, compreender e gerenciar as
+                        próprias emoções e as dos outros de forma eficaz.</p>
+                    <p>Importante: Ter IE <strong>não é suprimir ou controlar</strong> as emoções, mas sim usá-las a seu
+                        favor de forma consciente e construtiva para tomar melhores decisões e construir relacionamentos
+                        saudáveis.</p>
                     <h3>Na Prática:</h3>
                     <p>Um profissional com alta IE, ao receber um feedback negativo, consegue gerenciar a frustração
                         inicial, analisar a crítica de forma objetiva e usá-la como um plano de ação para seu
@@ -339,9 +400,8 @@
                 <button class="quiz-option" onclick="checkAnswer(this, false)">C) Alguém que sempre segue a lógica,
                     ignorando completamente o que sente.</button>
                 <div class="explanation-box">
-                    [cite_start]<strong>Incorreto.</strong> A resposta correta é a A. Inteligência emocional é sobre
-                    reconhecer, entender e gerenciar as emoções de forma construtiva[cite: 62], e não sobre escondê-las
-                    ou ignorá-las.
+                    <strong>Incorreto.</strong> A resposta correta é a A. Inteligência emocional é sobre reconhecer,
+                    entender e gerenciar as emoções de forma construtiva, e não sobre escondê-las ou ignorá-las.
                 </div>
             </div>
         </div>
@@ -350,8 +410,8 @@
             <h2>Pilar 1: Autoconhecimento Emocional</h2>
             <div class="slide-content">
                 <div class="text-content">
-                    <p>É a base de tudo. [cite_start]Significa ter a capacidade de identificar e nomear as próprias
-                        emoções, compreendendo suas causas e efeitos no seu comportamento. [cite: 70]</p>
+                    <p>É a base de tudo. Significa ter a capacidade de identificar e nomear as próprias emoções,
+                        compreendendo suas causas e efeitos no seu comportamento.</p>
                     <h3>Na Prática:</h3>
                     <p>Você percebe que sempre fica ansioso antes de reuniões importantes. Com autoconhecimento, você
                         identifica que a causa é o medo de ser julgado. Sabendo disso, pode criar estratégias para se
@@ -368,8 +428,8 @@
             <h2>Pilar 2: Autorregulação Emocional</h2>
             <div class="slide-content">
                 <div class="text-content">
-                    <p>É a habilidade de gerenciar e regular as próprias emoções. [cite_start]Envolve controlar
-                        impulsos, lidar com estresse e adaptar-se emocionalmente às situações. [cite: 72]</p>
+                    <p>É a habilidade de gerenciar e regular as próprias emoções. Envolve controlar impulsos, lidar com
+                        estresse e adaptar-se emocionalmente às situações.</p>
                     <h3>Na Prática:</h3>
                     <p>Um projeto que você lidera sofre um atraso inesperado. Em vez de entrar em pânico ou culpar a
                         equipe (impulso), você respira fundo, analisa a situação de forma calma, e reorganiza as
@@ -386,8 +446,8 @@
             <h2>Pilar 3: Empatia</h2>
             <div class="slide-content">
                 <div class="text-content">
-                    <p>É a capacidade de se conectar e compreender as emoções dos outros. [cite_start]Envolve perceber
-                        os sentimentos alheios, demonstrando respeito e consideração. [cite: 74, 75]</p>
+                    <p>É a capacidade de se conectar e compreender as emoções dos outros. Envolve perceber os
+                        sentimentos alheios, demonstrando respeito e consideração.</p>
                     <h3>Na Prática:</h3>
                     <p>Você nota que um colega de equipe está quieto e entregando menos que o normal. Em vez de cobrar,
                         você o chama para um café e pergunta: "Notei que você parece um pouco distante ultimamente. Está
@@ -404,9 +464,8 @@
             <h2>Pilar 4: Habilidades Sociais</h2>
             <div class="slide-content">
                 <div class="text-content">
-                    <p>É a aplicação dos outros pilares na interação com as pessoas. [cite_start]Envolve comunicar-se
-                        bem, resolver conflitos, inspirar e influenciar os outros, e trabalhar bem em equipe. [cite: 77]
-                    </p>
+                    <p>É a aplicação dos outros pilares na interação com as pessoas. Envolve comunicar-se bem, resolver
+                        conflitos, inspirar e influenciar os outros, e trabalhar bem em equipe.</p>
                     <h3>Na Prática:</h3>
                     <p>Durante uma reunião, duas pessoas começam a discutir. Com boas habilidades sociais, você intervém
                         de forma calma, reconhece a validade de ambos os pontos de vista e media a conversa para
@@ -429,9 +488,8 @@
                 <button class="quiz-option" onclick="checkAnswer(this, true)">B) Empatia</button>
                 <button class="quiz-option" onclick="checkAnswer(this, false)">C) Autoconhecimento Emocional</button>
                 <div class="explanation-box">
-                    <strong>Incorreto.</strong> A resposta certa é <strong>Empatia</strong>. [cite_start]A ação de
-                    perceber, ouvir e validar os sentimentos dos outros é a principal definição de empatia em um
-                    ambiente de liderança. [cite: 74, 75]
+                    <strong>Incorreto.</strong> A resposta certa é <strong>Empatia</strong>. A ação de perceber, ouvir e
+                    validar os sentimentos dos outros é a principal definição de empatia em um ambiente de liderança.
                 </div>
             </div>
         </div>
@@ -440,16 +498,15 @@
             <h2>O que é uma Competência? (CHA)</h2>
             <div class="slide-content">
                 <div class="text-content">
-                    [cite_start]<p>Uma competência é a união de três fatores que nos tornam aptos a realizar uma tarefa
-                        com sucesso. [cite: 99]</p>
+                    <p>Uma competência é a união de três fatores que nos tornam aptos a realizar uma tarefa com sucesso.
+                    </p>
                     <ul>
-                        [cite_start]<li><strong>Conhecimento (Saber):</strong> É a base teórica, o que você aprendeu em
-                            cursos, livros e aulas. [cite: 100, 102]</li>
-                        [cite_start]<li><strong>Habilidade (Saber Fazer):</strong> É a capacidade de aplicar o
-                            conhecimento na prática, desenvolvida com treino e experiência. [cite: 103, 105]</li>
-                        [cite_start]<li><strong>Atitude (Querer Fazer):</strong> É o comportamento, a proatividade e a
-                            decisão de aplicar seu conhecimento e habilidades para superar expectativas. [cite: 106,
-                            108]</li>
+                        <li><strong>Conhecimento (Saber):</strong> É a base teórica, o que você aprendeu em cursos,
+                            livros e aulas.</li>
+                        <li><strong>Habilidade (Saber Fazer):</strong> É a capacidade de aplicar o conhecimento na
+                            prática, desenvolvida com treino e experiência.</li>
+                        <li><strong>Atitude (Querer Fazer):</strong> É o comportamento, a proatividade e a decisão de
+                            aplicar seu conhecimento e habilidades para superar expectativas.</li>
                     </ul>
                     <h3>Exemplo Prático:</h3>
                     <p>Um marceneiro. <strong>Conhecimento:</strong> Sabe os tipos de madeira e teoria de encaixes.
@@ -474,9 +531,9 @@
                 <button class="quiz-option" onclick="checkAnswer(this, true)">B) Atitude</button>
                 <button class="quiz-option" onclick="checkAnswer(this, false)">C) Habilidade</button>
                 <div class="explanation-box">
-                    <strong>Incorreto.</strong> A resposta correta é <strong>Atitude</strong>. [cite_start]O
-                    profissional possui o conhecimento e a habilidade, mas a falta de iniciativa e proatividade aponta
-                    para uma atitude que precisa ser desenvolvida. [cite: 106]
+                    <strong>Incorreto.</strong> A resposta correta é <strong>Atitude</strong>. O profissional possui o
+                    conhecimento e a habilidade, mas a falta de iniciativa e proatividade aponta para uma atitude que
+                    precisa ser desenvolvida.
                 </div>
             </div>
         </div>
@@ -488,20 +545,17 @@
                     <p><strong>Instruções:</strong> Juntem-se em duplas, leiam o caso abaixo e preparem-se para entregar
                         as respostas ao final da aula.</p>
                     <p><strong>O Cenário:</strong> Clara é uma profissional dedicada que se sente preparada para
-                        qualquer desafio. [cite_start]No entanto, um de seus gestores parece cético quanto aos seus
-                        conhecimentos e sua capacidade, questionando constantemente a técnica que ela utiliza. [cite:
-                        141, 142]</p>
+                        qualquer desafio. No entanto, um de seus gestores parece cético quanto aos seus conhecimentos e
+                        sua capacidade, questionando constantemente a técnica que ela utiliza.</p>
 
                     <h3>Debatam e respondam:</h3>
                     <ol>
-                        [cite_start]<li>Quais <strong>competências</strong> Clara precisa ter para lidar com essa
-                            situação? [cite: 145]</li>
-                        [cite_start]<li>Quais <strong>habilidades</strong> são necessárias para que ela possa provar
-                            seus conhecimentos? [cite: 146]</li>
-                        [cite_start]<li>Quais <strong>atitudes</strong> são importantes para que Clara lide com a
-                            desconfiança do gestor? [cite: 147]</li>
-                        [cite_start]<li>Criem um breve <strong>plano de ação</strong> para ajudar Clara. [cite: 164]
-                        </li>
+                        <li>Quais <strong>competências</strong> Clara precisa ter para lidar com essa situação?</li>
+                        <li>Quais <strong>habilidades</strong> são necessárias para que ela possa provar seus
+                            conhecimentos?</li>
+                        <li>Quais <strong>atitudes</strong> são importantes para que Clara lide com a desconfiança do
+                            gestor?</li>
+                        <li>Criem um breve <strong>plano de ação</strong> para ajudar Clara.</li>
                     </ol>
                 </div>
                 <div class="image-content">
@@ -520,15 +574,15 @@
                     </p>
                     <h3>Lembre-se:</h3>
                     <ul>
-                        [cite_start]<li>As <em>soft skills</em> (habilidades comportamentais) são o que diferencia
-                            profissionais excelentes no mercado de trabalho. [cite: 91]</li>
-                        [cite_start]<li>Toda competência pode ser desenvolvida com treino, experiências e,
-                            principalmente, a atitude certa. [cite: 110, 111]</li>
+                        <li>As <em>soft skills</em> (habilidades comportamentais) são o que diferencia profissionais
+                            excelentes no mercado de trabalho.</li>
+                        <li>Toda competência pode ser desenvolvida com treino, experiências e, principalmente, a atitude
+                            certa.</li>
                     </ul>
                     <h3>Para saber mais:</h3>
                     <ul>
-                        [cite_start]<li><strong>Filme:</strong> <em>Divertida Mente</em> (2015). [cite: 178]</li>
-                        [cite_start]<li><strong>Série:</strong> <em>Explicando - A Mente</em> (2019). [cite: 179]</li>
+                        <li><strong>Filme:</strong> <em>Divertida Mente</em> (2015).</li>
+                        <li><strong>Série:</strong> <em>Explicando - A Mente</em> (2019).</li>
                         <li><strong>Leitura Recomendada:</strong> <em>Comunicação Não Violenta</em>, de Marshall B.
                             Rosenberg.</li>
                     </ul>
@@ -585,6 +639,7 @@
             }
         }
 
+        // Inicia a apresentação
         showSlide(currentSlide);
     </script>
 </body>
