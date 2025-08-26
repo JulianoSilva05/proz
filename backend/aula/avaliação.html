@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio: Sistema de Agendamento de Salas</title>
+    <style>
+        /* Estilos Gerais */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        
+        /* Container Principal */
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 25px 40px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Títulos */
+        h1, h2, h3 {
+            color: #1a2533;
+            margin-bottom: 0.8em;
+        }
+        
+        h1 {
+            font-size: 2.2em;
+            text-align: center;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 1.6em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        
+        h3 {
+            font-size: 1.2em;
+        }
+
+        /* Parágrafos e Listas */
+        p {
+            margin-bottom: 1em;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 0.8em;
+        }
+        
+        strong {
+            color: #0056b3;
+        }
+        
+        /* Blocos de Código */
+        pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95em;
+        }
+        
+        code {
+          font-family: 'Courier New', Courier, monospace;
+        }
+        
+        .code-sql {
+          color: #66d9ef;
+        }
+        
+        .code-comment {
+          color: #75715e;
+        }
+        
+        /* Cabeçalho do Desafio */
+        .header-info {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .header-info p {
+            margin: 5px 0;
+            font-size: 1.1em;
+        }
+        
+        /* Rodapé */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Desafio do Mundo Real: Sistema de Agendamento de Salas</h1>
+        </header>
+
+        <main>
+            <div class="header-info">
+                <p><strong>Empresa:</strong> InnovateTech Solutions</p>
+                <p><strong>Sua Posição:</strong> Desenvolvedor(a) Júnior</p>
+                <p><strong>Sua Missão:</strong> Criar um sistema interno para agendamento de salas de reunião.</p>
+            </div>
+
+            <section id="cenario">
+                <h2>1. Cenário</h2>
+                <p>
+                    A InnovateTech tem 3 salas de reunião: "Alfa", "Beta" e "Gama". Atualmente, o agendamento é feito em uma planilha compartilhada, o que está causando muitos conflitos de horários e confusão. Sua missão é criar uma página web simples onde qualquer funcionário possa ver os agendamentos existentes e criar um novo agendamento, evitando conflitos de horário.
+                </p>
+            </section>
+
+            <section id="tecnologias">
+                <h2>2. Tecnologias Envolvidas</h2>
+                <ul>
+                    <li><strong>Backend:</strong> PHP</li>
+                    <li><strong>Banco de Dados:</strong> MySQL</li>
+                    <li><strong>Frontend:</strong> HTML e CSS</li>
+                </ul>
+            </section>
+
+            <section id="requisitos">
+                <h2>3. Requisitos Funcionais</h2>
+                <ol>
+                    <li>
+                        <strong>Página Principal (<code>index.php</code>):</strong>
+                        <ul>
+                            <li>Deve exibir a lista de salas de reunião disponíveis.</li>
+                            <li>Para cada sala, deve haver um link ou botão para "Ver Agendamentos".</li>
+                            <li>Deve haver um formulário para criar um novo agendamento.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Página de Detalhes da Sala (<code>sala.php</code>):</strong>
+                        <ul>
+                            <li>Ao clicar em "Ver Agendamentos", o usuário deve ser levado para uma página que mostra todos os agendamentos para aquela sala específica.</li>
+                            <li>A página deve exibir o nome do responsável, a data, a hora de início e a hora de fim de cada agendamento.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Lógica de Agendamento (<code>agendar.php</code>):</strong>
+                        <ul>
+                            <li>O formulário deve enviar os dados (sala, nome do responsável, data, hora de início, hora de fim).</li>
+                            <li><strong>Regra de Negócio Principal:</strong> O sistema <strong>não pode</strong> permitir que um novo agendamento seja criado se o horário solicitado se sobrepuser a um agendamento já existente para a mesma sala.</li>
+                            <li>O sistema deve fornecer feedback claro ao usuário (sucesso ou erro).</li>
+                        </ul>
+                    </li>
+                </ol>
+            </section>
+            
+            <section id="banco-de-dados">
+                <h2>4. Estrutura do Banco de Dados (MySQL)</h2>
+                <p>Sugerimos um banco de dados chamado <code>innovatetech_agendamentos</code> com as seguintes tabelas:</p>
+
+                <h3>Tabela `salas`</h3>
+                <pre><code class="language-sql"><span class="code-sql">CREATE TABLE</span> salas (
+    id <span class="code-sql">INT AUTO_INCREMENT PRIMARY KEY</span>,
+    nome <span class="code-sql">VARCHAR</span>(100) <span class="code-sql">NOT NULL</span>
+);
+
+<span class="code-comment">-- Inserindo os dados iniciais</span>
+<span class="code-sql">INSERT INTO</span> salas (nome) <span class="code-sql">VALUES</span> ('Sala Alfa'), ('Sala Beta'), ('Sala Gama');</code></pre>
+
+                <h3>Tabela `agendamentos`</h3>
+                <pre><code class="language-sql"><span class="code-sql">CREATE TABLE</span> agendamentos (
+    id <span class="code-sql">INT AUTO_INCREMENT PRIMARY KEY</span>,
+    id_sala <span class="code-sql">INT NOT NULL</span>,
+    responsavel <span class="code-sql">VARCHAR</span>(255) <span class="code-sql">NOT NULL</span>,
+    data_agendamento <span class="code-sql">DATE NOT NULL</span>,
+    hora_inicio <span class="code-sql">TIME NOT NULL</span>,
+    hora_fim <span class="code-sql">TIME NOT NULL</span>,
+    data_criacao <span class="code-sql">TIMESTAMP DEFAULT CURRENT_TIMESTAMP</span>,
+    <span class="code-sql">FOREIGN KEY</span> (id_sala) <span class="code-sql">REFERENCES</span> salas(id)
+);</code></pre>
+            </section>
+            
+            <section id="passos">
+                <h2>5. Passos Sugeridos para a Implementação</h2>
+                <ol>
+                    <li><strong>Configuração do Ambiente:</strong> Crie o banco de dados e as tabelas. Prepare seu arquivo de conexão PHP (<code>conexao.php</code>) usando PDO ou MySQLi.</li>
+                    <li><strong>Listar Salas e Criar Formulário (<code>index.php</code>):</strong> Use PHP para buscar e exibir as salas do banco de dados. Monte o formulário de agendamento.</li>
+                    <li><strong>Processar o Agendamento (<code>agendar.php</code>):</strong> Receba os dados do formulário, valide as informações e implemente a lógica de verificação de conflito de horários antes de inserir no banco.</li>
+                    <li><strong>Exibir Agendamentos (<code>sala.php</code>):</strong> Crie a página que recebe um ID de sala pela URL e exibe todos os seus agendamentos em uma tabela.</li>
+                    <li><strong>Estilização (CSS):</strong> Crie um arquivo <code>estilo.css</code> para dar uma aparência limpa e profissional ao sistema.</li>
+                </ol>
+            </section>
+
+            <section id="desafios-extras">
+                <h2>6. Desafios Extras (Para ir além)</h2>
+                <ul>
+                    <li><strong>Editar e Excluir:</strong> Adicione funcionalidades para editar ou excluir agendamentos existentes.</li>
+                    <li><strong>Validação no Frontend:</strong> Use JavaScript para validar o formulário antes do envio (ex: a hora de fim não pode ser anterior à de início).</li>
+                    <li><strong>Segurança:</strong> Implemente o uso de <strong>Prepared Statements</strong> em todas as suas consultas SQL para prevenir Injeção de SQL.</li>
+                </ul>
+            </section>
+        </main>
+        
+        <footer>
+            <p>Boa sorte com o desafio!</p>
+        </footer>
+    </div>
+
+</body>
+</html>
