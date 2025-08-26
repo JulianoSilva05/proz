@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tema 1: Inteligência Emocional e Competências</title>
     <style>
         :root {
-            --primary-color: #5E35B1; /* Roxo mais profundo */
-            --secondary-color: #7E57C2; /* Roxo mais claro */
-            --accent-color: #FF7043; /* Laranja vibrante para destaque */
-            --text-color: #424242; /* Cinza escuro para texto */
+            --primary-color: #5E35B1;
+            /* Roxo mais profundo */
+            --secondary-color: #7E57C2;
+            /* Roxo mais claro */
+            --accent-color: #FF7043;
+            /* Laranja vibrante para destaque */
+            --text-color: #424242;
+            /* Cinza escuro para texto */
             --light-gray: #f5f5f5;
             --white: #ffffff;
             --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
         /* Estilos Gerais */
-        body, html {
+        body,
+        html {
             margin: 0;
             padding: 0;
             height: 100%;
@@ -46,56 +52,181 @@
             max-height: 650px;
             background-color: var(--white);
             border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             padding: 40px 50px;
             box-sizing: border-box;
             overflow-y: auto;
             flex-direction: column;
         }
-        
-        /* Layout de duas colunas para texto e imagem */
+
         .slide-content {
             display: flex;
             gap: 40px;
             align-items: center;
             width: 100%;
-            flex: 1; /* Faz o conteúdo ocupar o espaço disponível */
+            flex: 1;
         }
 
-        .text-content { flex: 1; }
-        .image-content { flex: 1; display: flex; align-items: center; justify-content: center; }
-        .image-content img { max-width: 100%; max-height: 400px; border-radius: 12px; object-fit: cover; }
-        .slide.active { display: flex; }
-        .slide-footer { margin-top: auto; padding-top: 20px; font-size: 0.9em; color: #aaa; text-align: center; }
-        
-        /* Estilos de Texto */
-        h1, h2, h3 { color: var(--primary-color); }
-        h1 { font-size: 2.8em; margin-bottom: 10px; }
-        h2 { font-size: 2.2em; border-bottom: 3px solid var(--secondary-color); padding-bottom: 10px; margin-top: 0; }
-        h3 { font-size: 1.6em; color: var(--accent-color); margin-top: 20px;}
-        p, li { font-size: 1.1em; line-height: 1.7; }
-        ul, ol { padding-left: 20px; }
-        strong { color: var(--secondary-color); }
-        
-        /* Estilos para Quizzes e Atividades */
-        .quiz-slide { justify-content: center; align-items: center; text-align: center; }
-        .quiz-container { width: 100%; max-width: 600px; }
+        .text-content {
+            flex: 1;
+        }
+
+        .image-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-content img {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        .slide-footer {
+            margin-top: auto;
+            padding-top: 20px;
+            font-size: 0.9em;
+            color: #aaa;
+            text-align: center;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: var(--primary-color);
+        }
+
+        h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 2.2em;
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.6em;
+            color: var(--accent-color);
+            margin-top: 20px;
+        }
+
+        p,
+        li {
+            font-size: 1.1em;
+            line-height: 1.7;
+        }
+
+        ul,
+        ol {
+            padding-left: 20px;
+        }
+
+        strong {
+            color: var(--secondary-color);
+        }
+
+        .quiz-slide {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .quiz-container {
+            width: 100%;
+            max-width: 600px;
+        }
+
         .quiz-option {
-            display: block; width: 100%; padding: 15px; margin: 10px 0; font-size: 1em; text-align: left;
-            border: 2px solid #ddd; border-radius: 8px; background-color: #fafafa; cursor: pointer;
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            font-size: 1em;
+            text-align: left;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background-color: #fafafa;
+            cursor: pointer;
             transition: all 0.2s ease-in-out;
         }
-        .quiz-option:hover:not(:disabled) { border-color: var(--accent-color); background-color: #fff3e0; }
-        .quiz-option:disabled { cursor: not-allowed; opacity: 0.8; }
-        .correct { background-color: #2E7D32 !important; border-color: #2E7D32 !important; color: white; }
-        .incorrect { background-color: #C62828 !important; border-color: #C62828 !important; color: white; }
-        .explanation-box { display: none; margin-top: 20px; padding: 15px; background-color: #fffbe6; border-radius: 8px; color: #6d5b0f; text-align: left;}
+
+        .quiz-option:hover:not(:disabled) {
+            border-color: var(--accent-color);
+            background-color: #fff3e0;
+        }
+
+        .quiz-option:disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        .correct {
+            background-color: #2E7D32 !important;
+            border-color: #2E7D32 !important;
+            color: white;
+        }
+
+        .incorrect {
+            background-color: #C62828 !important;
+            border-color: #C62828 !important;
+            color: white;
+        }
+
+        .explanation-box {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fffbe6;
+            border-radius: 8px;
+            color: #6d5b0f;
+            text-align: left;
+        }
+
+        /* BOTÕES DE NAVEGAÇÃO PARA MOBILE */
+        .mobile-nav {
+            display: none;
+            /* Escondido por padrão em telas grandes */
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: rgba(44, 44, 44, 0.8);
+            border-radius: 30px;
+            padding: 5px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .mobile-nav button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
 
         /* MEDIA QUERIES PARA RESPONSIVIDADE */
         @media (max-width: 768px) {
-            body { overflow: auto; }
-            
-            .slide-container { padding: 0; }
+            body {
+                overflow: auto;
+            }
+
+            .slide-container {
+                padding: 0;
+            }
 
             .slide {
                 width: 100%;
@@ -117,18 +248,40 @@
                 max-height: 250px;
             }
 
-            h1 { font-size: 2em; }
-            h2 { font-size: 1.8em; }
-            h3 { font-size: 1.4em; }
-            p, li { font-size: 1em; }
-            .quiz-option { font-size: 0.95em; }
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.8em;
+            }
+
+            h3 {
+                font-size: 1.4em;
+            }
+
+            p,
+            li {
+                font-size: 1em;
+            }
+
+            .quiz-option {
+                font-size: 0.95em;
+            }
+
+            .mobile-nav {
+                display: block;
+            }
+
+            /* Mostra os botões em telas pequenas */
         }
     </style>
 </head>
+
 <body>
 
     <div class="slide-container">
-        
+
         <div class="slide active">
             <div class="slide-content">
                 <div class="text-content">
@@ -137,31 +290,44 @@
                     <h3>Objetivos de hoje:</h3>
                     <ul>
                         <li>Aplicar os conceitos de inteligência emocional nas ações cotidianas.</li>
-                        <li>Compreender a importância das competências comportamentais para o desenvolvimento pessoal e profissional.</li>
+                        <li>Compreender a importância das competências comportamentais para o desenvolvimento pessoal e
+                            profissional.</li>
                     </ul>
                 </div>
                 <div class="image-content">
-                    <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Equipe colaborando em uma reunião">
+                    <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        alt="Equipe colaborando em uma reunião">
                 </div>
             </div>
-            <p class="slide-footer">Use as setas ◄ ► para navegar</p>
+            <p class="slide-footer">Use as setas ◄ ► ou arraste para navegar</p>
         </div>
 
         <div class="slide">
             <h2>Emoções vs. Sentimentos</h2>
             <div class="slide-content">
                 <div class="text-content">
-                    <p><strong>Emoções:</strong> São reações químicas e neurais, puramente instintivas e universais. Elas são respostas automáticas e de curta duração a um estímulo. Pense nelas como um "alarme" do corpo.</p>
-                    <p><strong>Sentimentos:</strong> São a nossa interpretação e avaliação cognitiva das emoções. Eles duram mais e são influenciados por nossas memórias e experiências. É como a "história" que contamos a nós mesmos sobre a emoção que sentimos.</p>
+                    <p><strong>Emoções:</strong> São reações químicas e neurais, puramente instintivas e universais.
+                        Elas são respostas automáticas e de curta duração a um estímulo. Pense nelas como um "alarme" do
+                        corpo.</p>
+                    <p><strong>Sentimentos:</strong> São a nossa interpretação e avaliação cognitiva das emoções. Eles
+                        duram mais e são influenciados por nossas memórias e experiências. É como a "história" que
+                        contamos a nós mesmos sobre a emoção que sentimos.</p>
                     <h3>Exemplos Práticos da Conexão Emoção-Sentimento:</h3>
                     <ul>
-                        <li><strong>Crítica no trabalho:</strong> A <strong>emoção</strong> imediata pode ser surpresa ou raiva. O <strong>sentimento</strong> que se desenvolve pode ser <strong>frustração</strong> ou <strong>motivação</strong>.</li>
-                        <li><strong>Elogio inesperado:</strong> A <strong>emoção</strong> é a <strong>alegria</strong> instantânea. Essa alegria pode se transformar no <strong>sentimento</strong> de <strong>orgulho</strong> ou <strong>gratidão</strong>.</li>
-                        <li><strong>Perda de um prazo:</strong> A <strong>emoção</strong> pode ser o <strong>medo</strong> das consequências. Esse medo pode gerar o <strong>sentimento</strong> de <strong>culpa</strong> ou <strong>ansiedade</strong>.</li>
+                        <li><strong>Crítica no trabalho:</strong> A <strong>emoção</strong> imediata pode ser surpresa
+                            ou raiva. O <strong>sentimento</strong> que se desenvolve pode ser
+                            <strong>frustração</strong> ou <strong>motivação</strong>.</li>
+                        <li><strong>Elogio inesperado:</strong> A <strong>emoção</strong> é a <strong>alegria</strong>
+                            instantânea. Essa alegria pode se transformar no <strong>sentimento</strong> de
+                            <strong>orgulho</strong> ou <strong>gratidão</strong>.</li>
+                        <li><strong>Perda de um prazo:</strong> A <strong>emoção</strong> pode ser o
+                            <strong>medo</strong> das consequências. Esse medo pode gerar o <strong>sentimento</strong>
+                            de <strong>culpa</strong> ou <strong>ansiedade</strong>.</li>
                     </ul>
                 </div>
                 <div class="image-content">
-                    <img src="https://images.pexels.com/photos/7848733/pexels-photo-7848733.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Máscaras com diferentes expressões emocionais">
+                    <img src="https://images.pexels.com/photos/7848733/pexels-photo-7848733.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        alt="Máscaras com diferentes expressões emocionais">
                 </div>
             </div>
         </div>
@@ -169,22 +335,27 @@
         <div class="slide quiz-slide">
             <div class="quiz-container">
                 <h2>Atividade 1: Teste seu conhecimento!</h2>
-                <p>Quando você interpreta a emoção da raiva como uma profunda frustração por não ter atingido uma meta, isso é um exemplo de:</p>
+                <p>Quando você interpreta a emoção da raiva como uma profunda frustração por não ter atingido uma meta,
+                    isso é um exemplo de:</p>
                 <button class="quiz-option" onclick="checkAnswer(this, false)">A) Emoção Primária</button>
                 <button class="quiz-option" onclick="checkAnswer(this, true)">B) Sentimento</button>
                 <button class="quiz-option" onclick="checkAnswer(this, false)">C) Reação Instintiva</button>
                 <div class="explanation-box">
-                    <strong>Incorreto.</strong> A resposta certa é <strong>Sentimento</strong>. A raiva é a emoção inicial, mas a "frustração" é a interpretação cognitiva e a história que você cria a partir dela, o que define um sentimento.
+                    <strong>Incorreto.</strong> A resposta certa é <strong>Sentimento</strong>. A raiva é a emoção
+                    inicial, mas a "frustração" é a interpretação cognitiva e a história que você cria a partir dela, o
+                    que define um sentimento.
                 </div>
             </div>
         </div>
-        
+
         <div class="slide">
             <h2>Os Tipos de Emoções</h2>
-             <div class="slide-content">
+            <div class="slide-content">
                 <div class="text-content">
-                    <p>Para entender melhor o que sentimos, podemos classificar as emoções em três grandes grupos, cada um com uma função e origem diferentes.</p>
-                    <p>Compreender essa divisão nos ajuda a identificar com mais clareza o que está acontecendo internamente.</p>
+                    <p>Para entender melhor o que sentimos, podemos classificar as emoções em três grandes grupos, cada
+                        um com uma função e origem diferentes.</p>
+                    <p>Compreender essa divisão nos ajuda a identificar com mais clareza o que está acontecendo
+                        internamente.</p>
                     <h3>As 3 Categorias são:</h3>
                     <ol>
                         <li><strong>Emoções Primárias</strong> (as reações instintivas)</li>
@@ -194,7 +365,8 @@
                     <p>Vamos explorar cada uma delas nos próximos slides.</p>
                 </div>
                 <div class="image-content">
-                     <img src="https://images.pexels.com/photos/7176319/pexels-photo-7176319.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Roda de emoções colorida">
+                    <img src="https://images.pexels.com/photos/7176319/pexels-photo-7176319.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        alt="Roda de emoções colorida">
                 </div>
             </div>
         </div>
@@ -202,59 +374,80 @@
         <div class="slide">
             <h2>1. Emoções Primárias</h2>
             <div class="text-content">
-                 <h3>O que são?</h3>
-                 <p>São as reações mais básicas, instintivas e universais. Nascemos com elas para garantir nossa sobrevivência. São respostas rápidas, intensas e de curta duração a um estímulo direto.</p>
-                 <h3>Exemplos no dia a dia:</h3>
-                 <ul>
-                     <li><strong>Alegria:</strong> A euforia ao fechar um grande contrato; a satisfação imediata ao resolver um problema complexo.</li>
-                     <li><strong>Tristeza:</strong> O desapontamento ao ter um projeto cancelado; a melancolia ao saber da saída de um colega querido.</li>
-                     <li><strong>Raiva:</strong> A irritação quando um sistema trava no meio de uma tarefa importante; a indignação quando um colega leva o crédito por sua ideia.</li>
-                     <li><strong>Medo:</strong> O pânico antes de uma apresentação para a diretoria; a ansiedade sobre uma possível demissão.</li>
-                     <li><strong>Nojo (Repulsa):</strong> A aversão a uma fofoca maliciosa no escritório; a repulsa por uma atitude antiética.</li>
-                 </ul>
+                <h3>O que são?</h3>
+                <p>São as reações mais básicas, instintivas e universais. Nascemos com elas para garantir nossa
+                    sobrevivência. São respostas rápidas, intensas e de curta duração a um estímulo direto.</p>
+                <h3>Exemplos no dia a dia:</h3>
+                <ul>
+                    <li><strong>Alegria:</strong> A euforia ao fechar um grande contrato; a satisfação imediata ao
+                        resolver um problema complexo.</li>
+                    <li><strong>Tristeza:</strong> O desapontamento ao ter um projeto cancelado; a melancolia ao saber
+                        da saída de um colega querido.</li>
+                    <li><strong>Raiva:</strong> A irritação quando um sistema trava no meio de uma tarefa importante; a
+                        indignação quando um colega leva o crédito por sua ideia.</li>
+                    <li><strong>Medo:</strong> O pânico antes de uma apresentação para a diretoria; a ansiedade sobre
+                        uma possível demissão.</li>
+                    <li><strong>Nojo (Repulsa):</strong> A aversão a uma fofoca maliciosa no escritório; a repulsa por
+                        uma atitude antiética.</li>
+                </ul>
             </div>
         </div>
 
         <div class="slide">
             <h2>2. Emoções Secundárias (Sociais)</h2>
             <div class="text-content">
-                 <h3>O que são?</h3>
-                 <p>São mais complexas, pois são uma combinação de emoções primárias processadas através de nossos pensamentos e crenças. Elas são aprendidas com a nossa socialização e com as regras morais do nosso ambiente.</p>
-                 <h3>Exemplos no ambiente de trabalho:</h3>
-                 <ul>
-                    <li><strong>Culpa (Tristeza + Medo):</strong> A sensação de responsabilidade por ter entregue um relatório com erros que prejudicou a equipe.</li>
-                    <li><strong>Vergonha (Medo + Raiva de si):</strong> Cometer um erro grave em uma apresentação e sentir que todos estão julgando sua competência.</li>
-                    <li><strong>Orgulho (Alegria + Satisfação):</strong> O sentimento de realização ao ver sua equipe ser elogiada por um projeto bem-sucedido.</li>
-                    <li><strong>Ciúme (Medo + Raiva + Tristeza):</strong> Sentir-se ameaçado quando seu gestor começa a dar mais atenção a um novo colega, temendo perder seu espaço.</li>
-                    <li><strong>Inveja (Tristeza + Raiva):</strong> Desejar a promoção que um colega recebeu, sentindo-se injustiçado.</li>
-                 </ul>
+                <h3>O que são?</h3>
+                <p>São mais complexas, pois são uma combinação de emoções primárias processadas através de nossos
+                    pensamentos e crenças. Elas são aprendidas com a nossa socialização e com as regras morais do nosso
+                    ambiente.</p>
+                <h3>Exemplos no ambiente de trabalho:</h3>
+                <ul>
+                    <li><strong>Culpa (Tristeza + Medo):</strong> A sensação de responsabilidade por ter entregue um
+                        relatório com erros que prejudicou a equipe.</li>
+                    <li><strong>Vergonha (Medo + Raiva de si):</strong> Cometer um erro grave em uma apresentação e
+                        sentir que todos estão julgando sua competência.</li>
+                    <li><strong>Orgulho (Alegria + Satisfação):</strong> O sentimento de realização ao ver sua equipe
+                        ser elogiada por um projeto bem-sucedido.</li>
+                    <li><strong>Ciúme (Medo + Raiva + Tristeza):</strong> Sentir-se ameaçado quando seu gestor começa a
+                        dar mais atenção a um novo colega, temendo perder seu espaço.</li>
+                    <li><strong>Inveja (Tristeza + Raiva):</strong> Desejar a promoção que um colega recebeu,
+                        sentindo-se injustiçado.</li>
+                </ul>
             </div>
         </div>
 
         <div class="slide">
             <h2>3. Emoções de Fundo</h2>
             <div class="text-content">
-                 <h3>O que são?</h3>
-                 <p>São as mais sutis. Não são reações explosivas, mas sim o "clima" ou "pano de fundo" do nosso estado mental e corporal. São de baixa intensidade, mas longa duração, e representam nosso bem-estar geral.</p>
-                 <h3>Exemplos de como você se sente:</h3>
-                 <ul>
-                    <li><strong>Tensão / Apreensão:</strong> O nervosismo sutil que fica no corpo após uma reunião difícil ou antes de uma semana com muitos prazos.</li>
-                    <li><strong>Calma / Tranquilidade:</strong> A sensação de paz após organizar sua agenda e saber que tudo está sob controle.</li>
-                    <li><strong>Bem-estar / Vitalidade:</strong> A energia e disposição sentidas em uma segunda-feira após um bom fim de semana, pronto para novos desafios.</li>
-                    <li><strong>Mal-estar / Fadiga:</strong> O esgotamento mental que se instala após meses de sobrecarga (burnout), tornando todas as tarefas mais difíceis.</li>
-                 </ul>
+                <h3>O que são?</h3>
+                <p>São as mais sutis. Não são reações explosivas, mas sim o "clima" ou "pano de fundo" do nosso estado
+                    mental e corporal. São de baixa intensidade, mas longa duração, e representam nosso bem-estar geral.
+                </p>
+                <h3>Exemplos de como você se sente:</h3>
+                <ul>
+                    <li><strong>Tensão / Apreensão:</strong> O nervosismo sutil que fica no corpo após uma reunião
+                        difícil ou antes de uma semana com muitos prazos.</li>
+                    <li><strong>Calma / Tranquilidade:</strong> A sensação de paz após organizar sua agenda e saber que
+                        tudo está sob controle.</li>
+                    <li><strong>Bem-estar / Vitalidade:</strong> A energia e disposição sentidas em uma segunda-feira
+                        após um bom fim de semana, pronto para novos desafios.</li>
+                    <li><strong>Mal-estar / Fadiga:</strong> O esgotamento mental que se instala após meses de
+                        sobrecarga (burnout), tornando todas as tarefas mais difíceis.</li>
+                </ul>
             </div>
         </div>
 
         <div class="slide quiz-slide">
             <div class="quiz-container">
                 <h2>Atividade 2: Classifique a emoção!</h2>
-                <p>A calma que uma pessoa sente ao final de um dia produtivo, que não é visível para os outros, é um exemplo de qual tipo de emoção?</p>
+                <p>A calma que uma pessoa sente ao final de um dia produtivo, que não é visível para os outros, é um
+                    exemplo de qual tipo de emoção?</p>
                 <button class="quiz-option" onclick="checkAnswer(this, true)">A) Emoção de Fundo</button>
                 <button class="quiz-option" onclick="checkAnswer(this, false)">B) Emoção Secundária</button>
                 <button class="quiz-option" onclick="checkAnswer(this, false)">C) Emoção Primária</button>
                 <div class="explanation-box">
-                    <strong>Incorreto.</strong> A resposta correta é <strong>Emoção de Fundo</strong>. A calma é um estado de ser contínuo e interno, não sendo facilmente perceptível pelos outros.
+                    <strong>Incorreto.</strong> A resposta correta é <strong>Emoção de Fundo</strong>. A calma é um
+                    estado de ser contínuo e interno, não sendo facilmente perceptível pelos outros.
                 </div>
             </div>
         </div>
@@ -263,182 +456,218 @@
             <h2>O que é Inteligência Emocional (IE)?</h2>
             <div class="slide-content">
                 <div class="text-content">
-                     <p>É um conjunto de competências que permite perceber, processar, compreender e gerenciar as próprias emoções e as dos outros de forma eficaz.</p>
-                     <p>Importante: Ter IE <strong>não é suprimir ou controlar</strong> as emoções, mas sim usá-las a seu favor de forma consciente e construtiva para tomar melhores decisões e construir relacionamentos saudáveis.</p>
-                     <h3>Na Prática:</h3>
-                     <p>Um profissional com alta IE, ao receber um feedback negativo, consegue gerenciar a frustração inicial, analisar a crítica de forma objetiva e usá-la como um plano de ação para seu desenvolvimento, em vez de reagir defensivamente.</p>
+                    <p>É um conjunto de competências que permite perceber, processar, compreender e gerenciar as
+                        próprias emoções e as dos outros de forma eficaz.</p>
+                    <p>Importante: Ter IE <strong>não é suprimir ou controlar</strong> as emoções, mas sim usá-las a seu
+                        favor de forma consciente e construtiva para tomar melhores decisões e construir relacionamentos
+                        saudáveis.</p>
+                    <h3>Na Prática:</h3>
+                    <p>Um profissional com alta IE, ao receber um feedback negativo, consegue gerenciar a frustração
+                        inicial, analisar a crítica de forma objetiva e usá-la como um plano de ação para seu
+                        desenvolvimento, em vez de reagir defensivamente.</p>
                 </div>
                 <div class="image-content">
-                    <img src="https://images.pexels.com/photos/4101143/pexels-photo-4101143.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Pessoa meditando calmamente em um ambiente de trabalho">
+                    <img src="https://images.pexels.com/photos/4101143/pexels-photo-4101143.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        alt="Pessoa meditando calmamente em um ambiente de trabalho">
                 </div>
             </div>
         </div>
-
         <div class="slide quiz-slide">
-             <div class="quiz-container">
+            <div class="quiz-container">
                 <h2>Atividade 3: Defina o conceito!</h2>
                 <p>Qual das alternativas melhor descreve uma pessoa utilizando sua Inteligência Emocional?</p>
-                <button class="quiz-option" onclick="checkAnswer(this, true)">A) Alguém que reconhece estar irritado e decide fazer uma pausa antes de responder a um e-mail.</button>
-                <button class="quiz-option" onclick="checkAnswer(this, false)">B) Alguém que nunca demonstra tristeza ou raiva no trabalho para parecer forte.</button>
-                <button class="quiz-option" onclick="checkAnswer(this, false)">C) Alguém que sempre segue a lógica, ignorando completamente o que sente.</button>
-                 <div class="explanation-box">
-                    <strong>Incorreto.</strong> A resposta correta é a A. Inteligência emocional é sobre reconhecer, entender e gerenciar as emoções de forma construtiva, e não sobre escondê-las ou ignorá-las.
+                <button class="quiz-option" onclick="checkAnswer(this, true)">A) Alguém que reconhece estar irritado e
+                    decide fazer uma pausa antes de responder a um e-mail.</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false)">B) Alguém que nunca demonstra tristeza ou
+                    raiva no trabalho para parecer forte.</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false)">C) Alguém que sempre segue a lógica,
+                    ignorando completamente o que sente.</button>
+                <div class="explanation-box">
+                    <strong>Incorreto.</strong> A resposta correta é a A. Inteligência emocional é sobre reconhecer,
+                    entender e gerenciar as emoções de forma construtiva, e não sobre escondê-las ou ignorá-las.
                 </div>
             </div>
         </div>
-
         <div class="slide">
             <h2>Pilar 1: Autoconhecimento Emocional</h2>
             <div class="slide-content">
                 <div class="text-content">
-                    <p>É a base de tudo. Significa ter a capacidade de identificar e nomear as próprias emoções, compreendendo suas causas e efeitos no seu comportamento.</p>
+                    <p>É a base de tudo. Significa ter a capacidade de identificar e nomear as próprias emoções,
+                        compreendendo suas causas e efeitos no seu comportamento.</p>
                     <h3>Na Prática:</h3>
-                    <p>Você percebe que sempre fica ansioso antes de reuniões importantes. Com autoconhecimento, você identifica que a causa é o medo de ser julgado. Sabendo disso, pode criar estratégias para se preparar melhor e reduzir essa ansiedade, em vez de apenas sofrer com ela.</p>
+                    <p>Você percebe que sempre fica ansioso antes de reuniões importantes. Com autoconhecimento, você
+                        identifica que a causa é o medo de ser julgado. Sabendo disso, pode criar estratégias para se
+                        preparar melhor e reduzir essa ansiedade, em vez de apenas sofrer com ela.</p>
                 </div>
                 <div class="image-content">
-                    <img src="https://images.pexels.com/photos/3771089/pexels-photo-3771089.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Pessoa escrevendo em um diário, refletindo">
+                    <img src="https://images.pexels.com/photos/3771089/pexels-photo-3771089.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        alt="Pessoa escrevendo em um diário, refletindo">
                 </div>
             </div>
         </div>
-
         <div class="slide">
             <h2>Pilar 2: Autorregulação Emocional</h2>
-             <div class="slide-content">
+            <div class="slide-content">
                 <div class="text-content">
-                    <p>É a habilidade de gerenciar e regular as próprias emoções. Envolve controlar impulsos, lidar com estresse e adaptar-se emocionalmente às situações.</p>
+                    <p>É a habilidade de gerenciar e regular as próprias emoções. Envolve controlar impulsos, lidar com
+                        estresse e adaptar-se emocionalmente às situações.</p>
                     <h3>Na Prática:</h3>
-                    <p>Um projeto que você lidera sofre um atraso inesperado. Em vez de entrar em pânico ou culpar a equipe (impulso), você respira fundo, analisa a situação de forma calma, e reorganiza as prioridades para colocar o projeto de volta nos trilhos. Isso é autorregulação em ação.</p>
+                    <p>Um projeto que você lidera sofre um atraso inesperado. Em vez de entrar em pânico ou culpar a
+                        equipe (impulso), você respira fundo, analisa a situação de forma calma, e reorganiza as
+                        prioridades para colocar o projeto de volta nos trilhos. Isso é autorregulação em ação.</p>
                 </div>
                 <div class="image-content">
-                    <img src="https://images.pexels.com/photos/6803433/pexels-photo-6803433.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Pessoa calma em meio a uma tempestade conceitual">
+                    <img src="https://images.pexels.com/photos/6803433/pexels-photo-6803433.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        alt="Pessoa calma em meio a uma tempestade conceitual">
                 </div>
             </div>
         </div>
-
         <div class="slide">
             <h2>Pilar 3: Empatia</h2>
-             <div class="slide-content">
+            <div class="slide-content">
                 <div class="text-content">
-                    <p>É a capacidade de se conectar e compreender as emoções dos outros. Envolve perceber os sentimentos alheios, demonstrando respeito e consideração.</p>
+                    <p>É a capacidade de se conectar e compreender as emoções dos outros. Envolve perceber os
+                        sentimentos alheios, demonstrando respeito e consideração.</p>
                     <h3>Na Prática:</h3>
-                    <p>Você nota que um colega de equipe está quieto e entregando menos que o normal. Em vez de cobrar, você o chama para um café e pergunta: "Notei que você parece um pouco distante ultimamente. Está tudo bem?". Você se esforça para entender a perspectiva dele antes de tirar conclusões.</p>
+                    <p>Você nota que um colega de equipe está quieto e entregando menos que o normal. Em vez de cobrar,
+                        você o chama para um café e pergunta: "Notei que você parece um pouco distante ultimamente. Está
+                        tudo bem?". Você se esforça para entender a perspectiva dele antes de tirar conclusões.</p>
                 </div>
                 <div class="image-content">
-                    <img src="https://images.pexels.com/photos/5668774/pexels-photo-5668774.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Duas pessoas conversando com atenção e cuidado">
+                    <img src="https://images.pexels.com/photos/5668774/pexels-photo-5668774.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        alt="Duas pessoas conversando com atenção e cuidado">
                 </div>
             </div>
         </div>
-
         <div class="slide">
             <h2>Pilar 4: Habilidades Sociais</h2>
-             <div class="slide-content">
+            <div class="slide-content">
                 <div class="text-content">
-                    <p>É a aplicação dos outros pilares na interação com as pessoas. Envolve comunicar-se bem, resolver conflitos, inspirar e influenciar os outros, e trabalhar bem em equipe.</p>
+                    <p>É a aplicação dos outros pilares na interação com as pessoas. Envolve comunicar-se bem, resolver
+                        conflitos, inspirar e influenciar os outros, e trabalhar bem em equipe.</p>
                     <h3>Na Prática:</h3>
-                    <p>Durante uma reunião, duas pessoas começam a discutir. Com boas habilidades sociais, você intervém de forma calma, reconhece a validade de ambos os pontos de vista e media a conversa para encontrar uma solução construtiva, em vez de deixar o conflito escalar.</p>
+                    <p>Durante uma reunião, duas pessoas começam a discutir. Com boas habilidades sociais, você intervém
+                        de forma calma, reconhece a validade de ambos os pontos de vista e media a conversa para
+                        encontrar uma solução construtiva, em vez de deixar o conflito escalar.</p>
                 </div>
                 <div class="image-content">
-                    <img src="https://images.pexels.com/photos/3184433/pexels-photo-3184433.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Equipe de trabalho unida e celebrando o sucesso">
+                    <img src="https://images.pexels.com/photos/3184433/pexels-photo-3184433.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        alt="Equipe de trabalho unida e celebrando o sucesso">
                 </div>
             </div>
         </div>
-
         <div class="slide quiz-slide">
             <div class="quiz-container">
                 <h2>Atividade 4: Identifique o pilar!</h2>
-                <p>Um gerente percebe a frustração em sua equipe devido a uma mudança de projeto. Ele marca uma reunião, ouve as preocupações de todos e valida seus sentimentos antes de explicar os próximos passos. Qual pilar ele demonstrou PRINCIPALMENTE ao ouvir e validar os sentimentos da equipe?</p>
+                <p>Um gerente percebe a frustração em sua equipe devido a uma mudança de projeto. Ele marca uma reunião,
+                    ouve as preocupações de todos e valida seus sentimentos antes de explicar os próximos passos. Qual
+                    pilar ele demonstrou PRINCIPALMENTE ao ouvir e validar os sentimentos da equipe?</p>
                 <button class="quiz-option" onclick="checkAnswer(this, false)">A) Autorregulação Emocional</button>
                 <button class="quiz-option" onclick="checkAnswer(this, true)">B) Empatia</button>
                 <button class="quiz-option" onclick="checkAnswer(this, false)">C) Autoconhecimento Emocional</button>
                 <div class="explanation-box">
-                    <strong>Incorreto.</strong> A resposta certa é <strong>Empatia</strong>. A ação de perceber, ouvir e validar os sentimentos dos outros é a principal definição de empatia em um ambiente de liderança.
+                    <strong>Incorreto.</strong> A resposta certa é <strong>Empatia</strong>. A ação de perceber, ouvir e
+                    validar os sentimentos dos outros é a principal definição de empatia em um ambiente de liderança.
                 </div>
             </div>
         </div>
-
         <div class="slide">
             <h2>O que é uma Competência? (CHA)</h2>
             <div class="slide-content">
                 <div class="text-content">
-                    <p>Uma competência é a união de três fatores que nos tornam aptos a realizar uma tarefa com sucesso.</p>
+                    <p>Uma competência é a união de três fatores que nos tornam aptos a realizar uma tarefa com sucesso.
+                    </p>
                     <ul>
-                        <li><strong>Conhecimento (Saber):</strong> É a base teórica, o que você aprendeu em cursos, livros e aulas.</li>
-                        <li><strong>Habilidade (Saber Fazer):</strong> É a capacidade de aplicar o conhecimento na prática, desenvolvida com treino e experiência.</li>
-                        <li><strong>Atitude (Querer Fazer):</strong> É o comportamento, a proatividade e a decisão de aplicar seu conhecimento e habilidades para superar expectativas.</li>
+                        <li><strong>Conhecimento (Saber):</strong> É a base teórica.</li>
+                        <li><strong>Habilidade (Saber Fazer):</strong> É a capacidade de aplicar o conhecimento na
+                            prática.</li>
+                        <li><strong>Atitude (Querer Fazer):</strong> É o comportamento e a proatividade para aplicar seu
+                            conhecimento e habilidades.</li>
                     </ul>
-                     <h3>Exemplo Prático:</h3>
-                     <p>Um marceneiro. <strong>Conhecimento:</strong> Sabe os tipos de madeira e teoria de encaixes. <strong>Habilidade:</strong> Lixa, corta e monta um móvel com perfeição. <strong>Atitude:</strong> Se dedica para entregar antes do prazo, sugere melhorias no design e mantém o local de trabalho limpo.</p>
+                    <h3>Exemplo Prático:</h3>
+                    <p>Um marceneiro. <strong>Conhecimento:</strong> Sabe os tipos de madeira.
+                        <strong>Habilidade:</strong> Monta um móvel com perfeição. <strong>Atitude:</strong> Se dedica
+                        para entregar antes do prazo e sugere melhorias.</p>
                 </div>
-                 <div class="image-content">
-                    <img src="https://images.pexels.com/photos/1292115/pexels-photo-1292115.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Gráfico de Venn mostrando a intersecção de Conhecimento, Habilidade e Atitude">
+                <div class="image-content">
+                    <img src="https://images.pexels.com/photos/1292115/pexels-photo-1292115.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        alt="Gráfico de Venn mostrando a intersecção de Conhecimento, Habilidade e Atitude">
                 </div>
             </div>
         </div>
-
         <div class="slide quiz-slide">
             <div class="quiz-container">
                 <h2>Atividade 5: Entendendo o CHA!</h2>
-                <p>Um analista de dados sabe criar dashboards incríveis (Habilidade) e fez vários cursos de Power BI (Conhecimento), mas raramente se oferece para ajudar colegas ou propor novas análises. Qual componente do CHA precisa ser desenvolvido?</p>
+                <p>Um analista de dados sabe criar dashboards incríveis (Habilidade) e fez vários cursos de Power BI
+                    (Conhecimento), mas raramente se oferece para ajudar colegas ou propor novas análises. Qual
+                    componente do CHA precisa ser desenvolvido?</p>
                 <button class="quiz-option" onclick="checkAnswer(this, false)">A) Conhecimento</button>
                 <button class="quiz-option" onclick="checkAnswer(this, true)">B) Atitude</button>
                 <button class="quiz-option" onclick="checkAnswer(this, false)">C) Habilidade</button>
                 <div class="explanation-box">
-                    <strong>Incorreto.</strong> A resposta correta é <strong>Atitude</strong>. O profissional possui o conhecimento e a habilidade, mas a falta de iniciativa e proatividade aponta para uma atitude que precisa ser desenvolvida.
+                    <strong>Incorreto.</strong> A resposta correta é <strong>Atitude</strong>. O profissional possui o
+                    conhecimento e a habilidade, mas a falta de iniciativa e proatividade aponta para uma atitude que
+                    precisa ser desenvolvida.
                 </div>
             </div>
         </div>
-        
         <div class="slide">
-             <h2>Atividade Prática em Duplas: O Caso de Clara</h2>
+            <h2>Atividade Prática em Duplas: O Caso de Clara</h2>
             <div class="slide-content">
                 <div class="text-content">
-                    <p><strong>Instruções:</strong> Juntem-se em duplas, leiam o caso abaixo e preparem-se para entregar as respostas ao final da aula.</p>
-                    <p><strong>O Cenário:</strong> Clara é uma profissional dedicada que se sente preparada para qualquer desafio. No entanto, um de seus gestores parece cético quanto aos seus conhecimentos e sua capacidade, questionando constantemente a técnica que ela utiliza.</p>
+                    <p><strong>Instruções:</strong> Juntem-se em duplas e leiam o caso abaixo.</p>
+                    <p><strong>O Cenário:</strong> Clara é uma profissional dedicada. No entanto, um de seus gestores
+                        parece cético quanto aos seus conhecimentos, questionando constantemente a técnica que ela
+                        utiliza.</p>
                     <h3>Debatam e respondam:</h3>
                     <ol>
-                        <li>Quais <strong>competências</strong> Clara precisa ter para lidar com essa situação?</li>
-                        <li>Quais <strong>habilidades</strong> são necessárias para que ela possa provar seus conhecimentos?</li>
-                        <li>Quais <strong>atitudes</strong> são importantes para que Clara lide com a desconfiança do gestor?</li>
+                        <li>Quais <strong>competências</strong> Clara precisa ter?</li>
+                        <li>Quais <strong>habilidades</strong> são necessárias?</li>
+                        <li>Quais <strong>atitudes</strong> são importantes?</li>
                         <li>Criem um breve <strong>plano de ação</strong> para ajudar Clara.</li>
                     </ol>
                 </div>
                 <div class="image-content">
-                     <img src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Duas pessoas discutindo um projeto em um quadro branco">
+                    <img src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        alt="Duas pessoas discutindo um projeto em um quadro branco">
                 </div>
             </div>
         </div>
-
         <div class="slide">
-             <h2>Fechamento e Próximos Passos</h2>
-             <div class="slide-content">
+            <h2>Fechamento e Próximos Passos</h2>
+            <div class="slide-content">
                 <div class="text-content">
                     <h3>Parabéns!</h3>
-                    <p>Você explorou os conceitos fundamentais de Inteligência Emocional e Competências Comportamentais.</p>
+                    <p>Você explorou os conceitos fundamentais de Inteligência Emocional e Competências Comportamentais.
+                    </p>
                     <h3>Lembre-se:</h3>
                     <ul>
-                        <li>As <em>soft skills</em> (habilidades comportamentais) são o que diferencia profissionais excelentes no mercado de trabalho.</li>
-                        <li>Toda competência pode ser desenvolvida com treino, experiências e, principalmente, a atitude certa.</li>
+                        <li>As <em>soft skills</em> são o que diferencia profissionais excelentes.</li>
+                        <li>Toda competência pode ser desenvolvida com treino e atitude.</li>
                     </ul>
                     <h3>Para saber mais:</h3>
                     <ul>
                         <li><strong>Filme:</strong> <em>Divertida Mente</em> (2015).</li>
                         <li><strong>Série:</strong> <em>Explicando - A Mente</em> (2019).</li>
-                        <li><strong>Leitura Recomendada:</strong> 
-  <a href="https://llfl-my.sharepoint.com/:b:/g/personal/juliano_llfl_onmicrosoft_com/EYTpXreVcAdNss2NOsJ1PAIB8ypbedJFgPiNFLr7S3KJpA?e=any24H" target="_blank">
-    <em>Comunicação Não Violenta</em>, de Marshall B. Rosenberg
-  </a>.
-</li>
+                        <li><strong>Leitura:</strong> <em>Comunicação Não Violenta</em>, de Marshall B. Rosenberg.</li>
                     </ul>
                 </div>
-                 <div class="image-content">
-                    <img src="https://images.pexels.com/photos/1595385/pexels-photo-1595385.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Equipe comemorando, olhando para o futuro">
+                <div class="image-content">
+                    <img src="https://images.pexels.com/photos/1595385/pexels-photo-1595385.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        alt="Equipe comemorando, olhando para o futuro">
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="mobile-nav">
+        <button id="prevBtn">‹</button>
+        <button id="nextBtn">›</button>
+    </div>
+
     <script>
         const slides = document.querySelectorAll('.slide');
+        const slideContainer = document.querySelector('.slide-container');
         let currentSlide = 0;
 
         function showSlide(index) {
@@ -461,11 +690,48 @@
             }
         }
 
+        // Navegação por teclado
         document.addEventListener('keydown', (event) => {
             if (event.key === 'ArrowRight') nextSlide();
             else if (event.key === 'ArrowLeft') prevSlide();
         });
 
+        // Navegação pelos botões mobile
+        document.getElementById('prevBtn').addEventListener('click', prevSlide);
+        document.getElementById('nextBtn').addEventListener('click', nextSlide);
+
+        // Navegação por Gesto (Swipe)
+        let touchstartX = 0;
+        let touchendX = 0;
+        let touchstartY = 0;
+        let touchendY = 0;
+
+        slideContainer.addEventListener('touchstart', function (event) {
+            touchstartX = event.changedTouches[0].screenX;
+            touchstartY = event.changedTouches[0].screenY;
+        }, false);
+
+        slideContainer.addEventListener('touchend', function (event) {
+            touchendX = event.changedTouches[0].screenX;
+            touchendY = event.changedTouches[0].screenY;
+            handleSwipe();
+        }, false);
+
+        function handleSwipe() {
+            const dx = touchendX - touchstartX;
+            const dy = touchendY - touchstartY;
+            // Verifica se é um swipe horizontal e não um scroll vertical
+            if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+                if (touchendX < touchstartX) {
+                    nextSlide();
+                }
+                if (touchendX > touchstartX) {
+                    prevSlide();
+                }
+            }
+        }
+
+        // Lógica do Quiz
         function checkAnswer(button, isCorrect) {
             const quizContainer = button.closest('.quiz-container');
             const options = quizContainer.querySelectorAll('.quiz-option');
@@ -481,7 +747,9 @@
             }
         }
 
+        // Inicia a apresentação
         showSlide(currentSlide);
     </script>
 </body>
+
 </html>
