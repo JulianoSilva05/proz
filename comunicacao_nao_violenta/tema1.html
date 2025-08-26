@@ -29,7 +29,6 @@
             font-family: var(--font-main);
             background-color: var(--light-gray);
             color: var(--text-color);
-            overflow: hidden;
         }
 
         /* Container Principal dos Slides */
@@ -38,6 +37,7 @@
             height: 100%;
             display: flex;
             align-items: center;
+            /* Centraliza verticalmente no desktop */
             justify-content: center;
             padding: 10px;
             box-sizing: border-box;
@@ -56,6 +56,7 @@
             padding: 40px 50px;
             box-sizing: border-box;
             overflow-y: auto;
+            /* Scroll interno para desktop se o conteúdo for longo */
             flex-direction: column;
         }
 
@@ -196,7 +197,6 @@
         /* BOTÕES DE NAVEGAÇÃO PARA MOBILE */
         .mobile-nav {
             display: none;
-            /* Escondido por padrão em telas grandes */
             position: fixed;
             bottom: 20px;
             left: 50%;
@@ -218,28 +218,41 @@
             cursor: pointer;
         }
 
-        /* MEDIA QUERIES PARA RESPONSIVIDADE */
+        /* #################### MEDIA QUERIES PARA RESPONSIVIDADE TOTAL #################### */
         @media (max-width: 768px) {
+
+            html,
             body {
-                overflow: auto;
+                height: auto;
+                /* Permite que a altura da página se ajuste ao conteúdo */
+                overflow-x: hidden;
+                /* Evita scroll horizontal */
             }
 
             .slide-container {
                 padding: 0;
+                height: auto;
+                /* Altura do container se ajusta ao slide */
+                align-items: flex-start;
+                /* CRÍTICO: Alinha o slide no topo, corrigindo a sobreposição */
             }
 
             .slide {
                 width: 100%;
                 height: auto;
+                /* Altura do slide é definida pelo conteúdo */
                 min-height: 100vh;
+                /* Garante que o slide ocupe pelo menos a tela inteira */
                 max-height: none;
                 border-radius: 0;
                 padding: 25px 20px;
-                justify-content: flex-start;
+                overflow-y: visible;
+                /* Remove o scroll interno do slide */
             }
 
             .slide-content {
                 flex-direction: column;
+                /* Empilha texto e imagem verticalmente */
                 gap: 20px;
                 height: auto;
             }
@@ -272,8 +285,6 @@
             .mobile-nav {
                 display: block;
             }
-
-            /* Mostra os botões em telas pequenas */
         }
     </style>
 </head>
@@ -459,12 +470,11 @@
                     <p>É um conjunto de competências que permite perceber, processar, compreender e gerenciar as
                         próprias emoções e as dos outros de forma eficaz.</p>
                     <p>Importante: Ter IE <strong>não é suprimir ou controlar</strong> as emoções, mas sim usá-las a seu
-                        favor de forma consciente e construtiva para tomar melhores decisões e construir relacionamentos
-                        saudáveis.</p>
+                        favor de forma consciente e construtiva.</p>
                     <h3>Na Prática:</h3>
                     <p>Um profissional com alta IE, ao receber um feedback negativo, consegue gerenciar a frustração
                         inicial, analisar a crítica de forma objetiva e usá-la como um plano de ação para seu
-                        desenvolvimento, em vez de reagir defensivamente.</p>
+                        desenvolvimento.</p>
                 </div>
                 <div class="image-content">
                     <img src="https://images.pexels.com/photos/4101143/pexels-photo-4101143.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -497,7 +507,7 @@
                     <h3>Na Prática:</h3>
                     <p>Você percebe que sempre fica ansioso antes de reuniões importantes. Com autoconhecimento, você
                         identifica que a causa é o medo de ser julgado. Sabendo disso, pode criar estratégias para se
-                        preparar melhor e reduzir essa ansiedade, em vez de apenas sofrer com ela.</p>
+                        preparar melhor e reduzir essa ansiedade.</p>
                 </div>
                 <div class="image-content">
                     <img src="https://images.pexels.com/photos/3771089/pexels-photo-3771089.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -513,8 +523,8 @@
                         estresse e adaptar-se emocionalmente às situações.</p>
                     <h3>Na Prática:</h3>
                     <p>Um projeto que você lidera sofre um atraso inesperado. Em vez de entrar em pânico ou culpar a
-                        equipe (impulso), você respira fundo, analisa a situação de forma calma, e reorganiza as
-                        prioridades para colocar o projeto de volta nos trilhos. Isso é autorregulação em ação.</p>
+                        equipe, você respira fundo, analisa a situação de forma calma, e reorganiza as prioridades para
+                        colocar o projeto de volta nos trilhos.</p>
                 </div>
                 <div class="image-content">
                     <img src="https://images.pexels.com/photos/6803433/pexels-photo-6803433.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -531,7 +541,7 @@
                     <h3>Na Prática:</h3>
                     <p>Você nota que um colega de equipe está quieto e entregando menos que o normal. Em vez de cobrar,
                         você o chama para um café e pergunta: "Notei que você parece um pouco distante ultimamente. Está
-                        tudo bem?". Você se esforça para entender a perspectiva dele antes de tirar conclusões.</p>
+                        tudo bem?".</p>
                 </div>
                 <div class="image-content">
                     <img src="https://images.pexels.com/photos/5668774/pexels-photo-5668774.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -548,7 +558,7 @@
                     <h3>Na Prática:</h3>
                     <p>Durante uma reunião, duas pessoas começam a discutir. Com boas habilidades sociais, você intervém
                         de forma calma, reconhece a validade de ambos os pontos de vista e media a conversa para
-                        encontrar uma solução construtiva, em vez de deixar o conflito escalar.</p>
+                        encontrar uma solução construtiva.</p>
                 </div>
                 <div class="image-content">
                     <img src="https://images.pexels.com/photos/3184433/pexels-photo-3184433.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -674,6 +684,10 @@
             slides.forEach((slide, i) => {
                 slide.classList.toggle('active', i === index);
             });
+            // Garante que o slide comece no topo ao ser exibido
+            if (slides[index]) {
+                slides[index].scrollTop = 0;
+            }
         }
 
         function nextSlide() {
@@ -720,7 +734,6 @@
         function handleSwipe() {
             const dx = touchendX - touchstartX;
             const dy = touchendY - touchstartY;
-            // Verifica se é um swipe horizontal e não um scroll vertical
             if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
                 if (touchendX < touchstartX) {
                     nextSlide();
