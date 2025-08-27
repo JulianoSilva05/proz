@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula 10: Introdução ao POO com PHP</title>
+    <style>
+        /* Estilos Gerais */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            overflow: hidden;
+        }
+
+        /* Estrutura do Slide */
+        .slide {
+            box-sizing: border-box;
+            width: 100%;
+            height: 100vh;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 60px;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Conteúdo do Slide */
+        .slide-content {
+            max-width: 950px;
+            width: 100%;
+            padding-bottom: 80px;
+        }
+
+        /* Títulos */
+        h1 {
+            font-size: 2.8rem;
+            color: #005a9c;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        /* Textos e Listas */
+        p,
+        li {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        ul,
+        ol {
+            list-style-position: inside;
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        strong {
+            color: #005a9c;
+        }
+
+        /* Destaque para código inline */
+        code.inline {
+            background-color: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            color: #c7254e;
+        }
+
+        /* Blocos de Código */
+        pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 1rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        code {
+            font-family: "Fira Code", "Courier New", monospace;
+        }
+
+        /* Elementos da Interface */
+        .navigation {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .nav-button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            border: 2px solid #007bff;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .nav-button:hover {
+            background-color: white;
+            color: #007bff;
+        }
+
+        .nav-button:disabled {
+            background-color: #ccc;
+            border-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            font-size: 1rem;
+            color: #555;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 5px 10px;
+            border-radius: 5px;
+            z-index: 100;
+        }
+
+        .emoji {
+            font-size: 3.5rem;
+        }
+
+        .flex-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        .flex-item {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilos do Quiz */
+        .quiz-container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .quiz-question {
+            font-size: 1.6rem;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .quiz-option {
+            padding: 20px;
+            font-size: 1.1rem;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: #fff;
+        }
+
+        .quiz-option:hover {
+            border-color: #007bff;
+            background-color: #f0f8ff;
+        }
+
+        .quiz-option.incorrect-temp {
+            border-color: #dc3545 !important;
+            background-color: #f8d7da !important;
+        }
+
+        .feedback-card {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .feedback-card.correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .feedback-card.incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .feedback-card p {
+            margin: 0;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .feedback-card h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="slide active">
+        <div class="slide-content">
+            <span class="emoji">🏗️</span>
+            <h1>Introdução à Programação Orientada a Objetos (POO)</h1>
+            <p style="text-align:center; font-size: 1.5rem;">Organizando o seu código PHP de forma inteligente e
+                reutilizável.</p>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="slide-content">
+            <h1>O que é POO?</h1>
+            <p>A Programação Orientada a Objetos (POO) é uma forma de programar que nos ajuda a organizar o código de
+                maneira mais segura, lógica e fácil de reutilizar.</p>
+        </div>
+    </section>
+    <section class="slide">
+        <div class="slide-content">
+            <h1>Classes e Objetos: A Planta e a Casa</h1>
+            <div class="flex-container">
+                <div class="flex-item">
+                    <h2>Classe (A Planta 📐)</h2>
+                    <p>Uma classe é um <strong>modelo</strong>. Ela define como algo deve ser.</p>
+                </div>
+                <div class="flex-item">
+                    <h2>Objeto (A Casa 🏠)</h2>
+                    <p>Um objeto é a <strong>construção real</strong> feita a partir da planta.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="slide">
+        <div class="slide-content">
+            <h1>Passo 1: Criando a Classe (A Planta)</h1>
+            <p>Vamos criar a planta de um carro. Em PHP, usamos a palavra-chave <code>class</code> para definir o
+                "molde".</p>
+            <pre><code>&lt;?php
+class Carro {
+    public $fabricante;
+    public $modelo;
+}
+?&gt;</code></pre>
+        </div>
+    </section>
+    <section class="slide">
+        <div class="slide-content">
+            <h1>Passo 2: Criando o Objeto (A Casa)</h1>
+            <p>Agora que temos a planta, vamos construir carros! Para criar um objeto, usamos <code>new</code>.</p>
+            <pre><code>&lt;?php
+require_once 'carro.php';
+
+$carro1 = new Carro();
+$carro1->fabricante = "Volkswagen";
+$carro1->modelo = "Fusca";
+
+echo "Carro 1: " . $carro1->fabricante . " " . $carro1->modelo;
+?&gt;</code></pre>
+        </div>
+    </section>
+    <section class="slide">
+        <div class="slide-content">
+            <h1>Desvendando a Sintaxe: Peça por Peça</h1>
+            <ul>
+                <li><code class="inline">require_once 'carro.php';</code>: Carrega o ficheiro da classe uma única vez.
+                </li>
+                <li><code class="inline">class Carro { ... }</code>: Inicia a definição do "molde".</li>
+                <li><code class="inline">$carro1 = new Carro();</code>: O <strong>new</strong> cria um objeto real a
+                    partir da planta.</li>
+                <li><code class="inline">$carro1->fabricante</code>: O operador <strong>-></strong> (seta) acede a uma
+                    propriedade ou método dentro de um objeto.</li>
+                <li><code class="inline">"..." . $carro1->modelo;</code>: O <strong>ponto (.)</strong> serve para
+                    "colar" (concatenar) textos.</li>
+            </ul>
+        </div>
+    </section>
+    <section class="slide" data-quiz="1">
+        <div class="quiz-container">
+            <h2 class="quiz-question">No código <code>$carro1->modelo = "Fusca"</code>, o que o operador <code>-></code>
+                faz?</h2>
+            <div class="quiz-options">
+                <button class="quiz-option" onclick="checkAnswer(1, false, this)">Cria uma nova variável.</button>
+                <button class="quiz-option" onclick="checkAnswer(1, true, this)">Acede à propriedade 'modelo' do objeto
+                    '$carro1'.</button>
+                <button class="quiz-option" onclick="checkAnswer(1, false, this)">Compara o objeto com uma
+                    string.</button>
+                <button class="quiz-option" onclick="checkAnswer(1, false, this)">Mostra o valor na tela.</button>
+            </div>
+            <div id="feedback-correct-1" class="feedback-card correct">
+                <h3>Você Acertou!</h3>
+            </div>
+            <div id="feedback-incorrect-1" class="feedback-card incorrect">
+                <h3>Ops, tente novamente!</h3>
+                <p><strong>Explicação:</strong> A seta <code>-></code> é a forma como "entramos" num objeto para ler ou
+                    modificar as suas propriedades internas.</p>
+            </div>
+        </div>
+    </section>
+    <section class="slide">
+        <div class="slide-content">
+            <h1>Visibilidade: Quem Pode Ver o Quê?</h1>
+            <div class="flex-container">
+                <div class="flex-item">
+                    <h2>public ✅</h2>
+                    <p>Acessível de <strong>qualquer lugar</strong>.</p>
+                </div>
+                <div class="flex-item">
+                    <h2>private ⛔</h2>
+                    <p>Acessível apenas de <strong>dentro da classe</strong>.</p>
+                </div>
+                <div class="flex-item">
+                    <h2>protected 🔒</h2>
+                    <p>Acessível de <strong>dentro da classe e por classes filhas</strong>.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="slide">
+        <div class="slide-content">
+            <h1>Construtores: O Início de Tudo</h1>
+            <p>Um construtor (<code>__construct</code>) é um método especial que é executado
+                <strong>automaticamente</strong> sempre que um novo objeto é criado.
+            </p>
+            <pre><code>&lt;?php
+class Pessoa {
+    public $nome;
+    public function __construct($nome_inicial) {
+        $this->nome = $nome_inicial;
+    }
+}
+$aluno = new Pessoa("João");
+?&gt;</code></pre>
+        </div>
+    </section>
+    <section class="slide" data-quiz="2">
+        <div class="quiz-container">
+            <h2 class="quiz-question">Qual é a principal finalidade de um método construtor?</h2>
+            <div class="quiz-options">
+                <button class="quiz-option" onclick="checkAnswer(2, false, this)">Destruir o objeto.</button>
+                <button class="quiz-option" onclick="checkAnswer(2, false, this)">Exibir as propriedades.</button>
+                <button class="quiz-option" onclick="checkAnswer(2, true, this)">Inicializar as propriedades do objeto
+                    na sua criação.</button>
+                <button class="quiz-option" onclick="checkAnswer(2, false, this)">Verificar erros.</button>
+            </div>
+            <div id="feedback-correct-2" class="feedback-card correct">
+                <h3>Você Acertou!</h3>
+            </div>
+            <div id="feedback-incorrect-2" class="feedback-card incorrect">
+                <h3>Ops, tente novamente!</h3>
+                <p><strong>Explicação:</strong> O construtor garante que o objeto seja criado com seus valores iniciais
+                    já definidos.</p>
+            </div>
+        </div>
+    </section>
+    <section class="slide">
+        <div class="slide-content">
+            <span class="emoji">🚀</span>
+            <h1>Desafio Prático: A Classe "Aluno"</h1>
+            <ol>
+                <li>Crie uma classe <strong><code>Aluno</code></strong> com as propriedades
+                    <strong><code>$nome</code></strong>, <strong><code>$idade</code></strong> e
+                    <strong><code>$matricula</code></strong>.
+                </li>
+                <li>Crie um <strong>método construtor</strong> para inicializar essas propriedades.</li>
+                <li>Crie pelo menos <strong>dois objetos</strong> da classe <code>Aluno</code>.</li>
+                <li>Use <code>echo</code> para exibir os dados de cada aluno.</li>
+            </ol>
+        </div>
+    </section>
+    <section class="slide">
+        <div class="slide-content">
+            <h1>Solução do Desafio</h1>
+            <pre><code>&lt;?php
+class Aluno {
+    public $nome, $idade, $matricula;
+
+    public function __construct($nome, $idade, $matricula) {
+        $this->nome = $nome;
+        $this->idade = $idade;
+        $this->matricula = $matricula;
+    }
+}
+$aluno1 = new Aluno("Maria Silva", 17, "2024001");
+echo "Nome: " . $aluno1->nome . " | Matrícula: " . $aluno1->matricula;
+?&gt;</code></pre>
+        </div>
+    </section>
+    <section class="slide">
+        <div class="slide-content">
+            <h1>Estrutural vs. POO: Duas Formas de Ver o Mundo</h1>
+            <div class="flex-container">
+                <div class="flex-item">
+                    <h2>Programação Estrutural 👎</h2>
+                    <p>Os dados ficam "soltos" em arrays e as ações em funções separadas. Fica confuso e difícil de
+                        gerir à medida que o sistema cresce.</p>
+                    <pre><code>&lt;?php
+$carro_array = ["modelo" => "Uno"];
+function ligar_carro($carro) {
+    echo $carro["modelo"] . " ligou!";
+}
+ligar_carro($carro_array);
+?&gt;</code></pre>
+                </div>
+                <div class="flex-item">
+                    <h2>Programação Orientada a Objetos 👍</h2>
+                    <p>Os dados (propriedades) e as ações (métodos) ficam juntos e organizados dentro da classe. O
+                        código fica mais limpo e reutilizável.</p>
+                    <pre><code>&lt;?php
+class Carro {
+    public $modelo;
+    public function ligar() {
+        echo $this->modelo . " ligou!";
+    }
+}
+$meu_carro = new Carro();
+$meu_carro->modelo = "Uno";
+$meu_carro->ligar();
+?&gt;</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="slide-content">
+            <span class="emoji">🏆</span>
+            <h1>Desafio Final: Mini Catálogo de Produtos</h1>
+            <p>Vamos aplicar tudo o que aprendemos num cenário do mundo real! Você foi contratado para criar a base de
+                um sistema de e-commerce.</p>
+            <h2>Sua Missão:</h2>
+            <ol>
+                <li>Crie uma classe chamada <strong><code>Produto</code></strong>.</li>
+                <li>A classe deve ter as seguintes propriedades: <strong><code>$nome</code></strong> (string),
+                    <strong><code>$preco</code></strong> (float), e <strong><code>$imagem_url</code></strong> (string, o
+                    link para uma foto do produto).</li>
+                <li>Crie um <strong>método construtor</strong> que inicialize todas essas propriedades.</li>
+                <li>Crie um método público chamado <strong><code>exibir()</code></strong>. Este método não receberá
+                    parâmetros e deverá usar <code>echo</code> para renderizar um "card" de produto em HTML, mostrando a
+                    imagem, o nome e o preço formatado (ex: "R$ 99.90").</li>
+                <li>Crie pelo menos <strong>dois objetos</strong> da classe <code>Produto</code> com dados reais (pode
+                    pegar de qualquer site de e-commerce).</li>
+                <li>Chame o método <strong><code>exibir()</code></strong> para cada um dos seus objetos.</li>
+            </ol>
+            <p style="text-align:center;"><strong>Dica:</strong> Para formatar o preço, você pode usar a função
+                <code>number_format($this->preco, 2, ',', '.')</code> dentro do seu método.</p>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="slide-content">
+            <h1>Conclusão</h1>
+            <p>Hoje aprendemos os fundamentos da Programação Orientada a Objetos em PHP!</p>
+            <ul>
+                <li>Uma <strong>Classe</strong> é um molde, e um <strong>Objeto</strong> é a instância criada a partir
+                    dele.</li>
+                <li>O <strong>Construtor</strong> (<code>__construct</code>) é um método especial para inicializar um
+                    objeto.</li>
+            </ul>
+            <h2>Perguntas? 🤔</h2>
+        </div>
+    </section>
+
+    <div class="navigation">
+        <button id="prevBtn" class="nav-button">Anterior</button>
+        <button id="nextBtn" class="nav-button">Próximo</button>
+    </div>
+    <div id="counter" class="slide-counter"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const counter = document.getElementById('counter');
+            let currentSlide = 0;
+
+            function showSlide(index) {
+                if (index < 0 || index >= slides.length) return;
+
+                slides[currentSlide].classList.remove('active');
+                currentSlide = index;
+                slides[currentSlide].classList.add('active');
+
+                counter.textContent = `${currentSlide + 1} / ${slides.length}`;
+
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === slides.length - 1;
+
+                if (slides[currentSlide].hasAttribute('data-quiz')) {
+                    nextBtn.disabled = true;
+                }
+            }
+
+            function next() {
+                if (currentSlide < slides.length - 1) {
+                    showSlide(currentSlide + 1);
+                }
+            }
+
+            function prev() {
+                if (currentSlide > 0) {
+                    showSlide(currentSlide - 1);
+                }
+            }
+
+            prevBtn.addEventListener('click', prev);
+            nextBtn.addEventListener('click', next);
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'ArrowRight' || event.key === 'PageDown') {
+                    if (!nextBtn.disabled) next();
+                } else if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+                    if (!prevBtn.disabled) prev();
+                }
+            });
+
+            showSlide(0);
+        });
+
+        function checkAnswer(quizId, isCorrect, element) {
+            const correctFeedback = document.getElementById(`feedback-correct-${quizId}`);
+            const incorrectFeedback = document.getElementById(`feedback-incorrect-${quizId}`);
+            const optionsContainer = element.parentElement;
+
+            correctFeedback.style.display = 'none';
+            incorrectFeedback.style.display = 'none';
+
+            const previouslyIncorrect = optionsContainer.querySelector('.quiz-option.incorrect-temp');
+            if (previouslyIncorrect) {
+                previouslyIncorrect.classList.remove('incorrect-temp');
+            }
+
+            if (isCorrect) {
+                correctFeedback.style.display = 'block';
+                element.style.borderColor = '#28a745';
+                element.style.backgroundColor = '#d4edda';
+
+                const allOptions = optionsContainer.querySelectorAll('.quiz-option');
+                allOptions.forEach(opt => {
+                    opt.style.pointerEvents = 'none';
+                });
+
+                document.getElementById('nextBtn').disabled = false;
+
+            } else {
+                incorrectFeedback.style.display = 'block';
+                element.classList.add('incorrect-temp');
+            }
+        }
+    </script>
+</body>
+
+</html>
