@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercitando a Comunicação Não Violenta</title>
+    <style>
+        /* Estilos Gerais */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            overflow: hidden; /* Esconde as barras de rolagem */
+        }
+
+        /* Link para o Início */
+        .home-link {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background-color: #6a1b9a;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: background-color 0.3s;
+        }
+        .home-link:hover {
+            background-color: #4a148c;
+        }
+
+
+        /* Container da Apresentação */
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Estilo Base do Slide */
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+            box-sizing: border-box;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
+            background: #fff;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 1;
+        }
+
+        /* Conteúdo do Slide */
+        .slide-content {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .slide img {
+            max-width: 100%;
+            height: auto;
+            max-height: 35vh;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            object-fit: cover;
+        }
+
+        .slide h1 {
+            font-size: 2.8em;
+            color: #6a1b9a; /* Roxo Proz */
+            margin-bottom: 10px;
+        }
+
+        .slide h2 {
+            font-size: 2em;
+            color: #4a4a4a;
+            font-weight: 500;
+        }
+        
+        .slide h3 {
+            font-size: 1.5em;
+            color: #6a1b9a;
+            margin-top: 30px;
+            margin-bottom: 5px;
+        }
+
+        .slide p, .slide li {
+            font-size: 1.2em;
+            line-height: 1.6;
+            text-align: left;
+        }
+        
+        .slide ul {
+            list-style-position: inside;
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .slide blockquote {
+            font-size: 1.2em;
+            font-style: italic;
+            color: #333;
+            border-left: 5px solid #6a1b9a;
+            padding: 10px 20px;
+            margin: 15px 0;
+            background-color: #f9f9f9;
+            border-radius: 0 8px 8px 0;
+            text-align: left;
+            line-height: 1.7;
+        }
+
+        .slide .brand {
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #6a1b9a;
+        }
+
+        .slide a {
+            color: #6a1b9a;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .slide a:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilos do Quiz */
+        .quiz-container {
+            margin-top: 20px;
+            width: 100%;
+            text-align: left;
+        }
+        
+        .quiz-question {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .quiz-option {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 1.1em;
+            background-color: #fff;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+        }
+        .quiz-option:hover:not(:disabled) {
+            background-color: #f5f5f5;
+            border-color: #6a1b9a;
+        }
+        .quiz-option:disabled {
+            cursor: not-allowed;
+        }
+
+        .quiz-feedback {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #e9ecef;
+            text-align: left;
+            font-size: 1em;
+        }
+
+        /* Instruções de Navegação */
+        .navigation-instructions {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.5s ease 2s;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="home-link">Voltar ao Início</a>
+
+    <div class="presentation-container">
+
+        <section class="slide active">
+            <div class="slide-content">
+                <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Equipe diversa colaborando em um escritório moderno.">
+                <h1>Exercitando a Comunicação Não Violenta</h1>
+                <h2>Disciplina: Educação Corporativa e Comportamental</h2>
+            </div>
+            <div class="brand">Proz</div>
+        </section>
+
+        <section class="slide">
+            <div class="slide-content">
+                <img src="https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Pessoas em uma reunião, focadas em aprendizado e desenvolvimento.">
+                <h2>O que vamos aprender hoje:</h2>
+                <ul>
+                    [cite_start]<li>O que é a Comunicação Não Violenta (CNV) e seus pilares. [cite: 5]</li>
+                    [cite_start]<li>Como identificar necessidades e sentimentos para uma comunicação mais clara. [cite: 98, 99]</li>
+                </ul>
+                <h3>Habilidade a ser Desenvolvida:</h3>
+                [cite_start]<p>Empregar as técnicas de comunicação não violenta em diálogos profissionais e pessoais. [cite: 7]</p>
+            </div>
+            <div class="brand">Proz</div>
+        </section>
+
+        <section class="slide">
+            <div class="slide-content">
+                <img src="https://images.pexels.com/photos/574282/pexels-photo-574282.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Pessoa olhando para um nascer do sol, simbolizando reflexão.">
+                [cite_start]<h2>Como você chega para o nosso encontro de hoje? [cite: 10]</h2>
+                <ul>
+                    [cite_start]<li>Como você está se sentindo? [cite: 14]</li>
+                    [cite_start]<li>Quais são suas intenções e metas para a semana? [cite: 15]</li>
+                    [cite_start]<li>O que você gostaria de celebrar? [cite: 12]</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="slide">
+            <div class="slide-content">
+                <img src="https://images.pexels.com/photos/7680235/pexels-photo-7680235.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Duas pessoas conversando, uma gesticulando (não-verbal) e a outra ouvindo atentamente (verbal).">
+                [cite_start]<h2>Existem dois tipos principais de comunicação: [cite: 21]</h2>
+                <ul>
+                    [cite_start]<li><strong>Verbal:</strong> Composta por palavras, podendo ser <strong>escrita</strong> ou <strong>oral</strong>. [cite: 22, 23, 24, 25]</li>
+                    [cite_start]<li><strong>Não verbal:</strong> Baseada em sinais como olhares, gestos e postura, que podem complementar ou contradizer nossas palavras. [cite: 18, 19, 20]</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="slide">
+            <div class="slide-content">
+                <img src="https://www.nonviolentcommunication.com/wp-content/uploads/2021/05/marshall-rosenberg-nvc-1.jpg" alt="Foto de Marshall Rosenberg, fundador da Comunicação Não Violenta.">
+                <h2>Marshall Rosenberg (1934-2015)</h2>
+                <ul>
+                    [cite_start]<li>Psicólogo norte-americano e o criador da Comunicação Não Violenta (CNV). [cite: 38, 39]</li>
+                    [cite_start]<li>Durante a infância, sofreu preconceito por sua família ser judia. [cite: 39]</li>
+                    [cite_start]<li>Ele relatava que o que mais o feria não era a violência física, mas as risadas de quem assistia sem intervir. [cite: 40]</li>
+                    <li>Sua experiência o motivou a estudar formas de comunicação que promovessem a compaixão e a conexão humana.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="slide">
+            <div class="slide-content">
+                <img src="https://images.pexels.com/photos/4057753/pexels-photo-4057753.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Nós em uma corda, simbolizando conflito e a necessidade de desatá-los.">
+                [cite_start]<blockquote style="font-size: 1.4em;">"Toda violência é a manifestação trágica de uma necessidade não atendida." [cite: 47, 48] - [cite_start]Marshall Rosenberg [cite: 49]</blockquote>
+                <p style="text-align:center; max-width: 800px;">A CNV propõe que, por trás de toda ação ou fala "violenta", existe uma necessidade humana universal que não está sendo atendida. [cite_start]A linguagem que usamos pode gerar dor ou conexão. [cite: 44, 45]</p>
+            </div>
+        </section>
+
+        <section class="slide">
+            <div class="slide-content">
+                <img src="https://images.pexels.com/photos/1765005/pexels-photo-1765005.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Quatro blocos de madeira empilhados, representando os quatro pilares da CNV.">
+                [cite_start]<h2>Os Quatro Componentes da Comunicação Não Violenta [cite: 95]</h2>
+                <ol style="text-align: left; font-size: 1.2em; line-height: 1.8;">
+                    [cite_start]<li><strong>Observação:</strong> Descrever o que aconteceu sem julgamento. [cite: 97]</li>
+                    [cite_start]<li><strong>Sentimento:</strong> Nomear o que sentimos a partir daquela observação. [cite: 98]</li>
+                    [cite_start]<li><strong>Necessidade:</strong> Identificar qual necessidade nossa está conectada àquele sentimento. [cite: 99]</li>
+                    [cite_start]<li><strong>Pedido:</strong> Fazer um pedido claro e concreto para que nossa necessidade seja atendida. [cite: 100, 101]</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="slide">
+            <div class="slide-content">
+                <div class="quiz-container" id="quiz1">
+                    <p class="quiz-question">Gabriel, líder de projeto, disse a uma funcionária que perdeu um prazo de inscrição: "Você vive deixando as coisas para depois!". [cite_start]Como ele poderia transformar esse julgamento em uma <strong>OBSERVAÇÃO</strong> neutra, conforme o primeiro passo da CNV? [cite: 151, 152, 153]</p>
+                    <button class="quiz-option">A) "Você precisa ser mais responsável com os prazos."</button>
+                    <button class="quiz-option" data-correct="true">B) "Notei que o prazo para a inscrição no curso de programação não foi cumprido."</button>
+                    <button class="quiz-option">C) "Por que você sempre procrastina em tarefas importantes?"</button>
+                    <div class="quiz-feedback">
+                        <strong>Explicação:</strong> A opção B é a única que descreve o fato ("o prazo não foi cumprido") de forma objetiva, sem adicionar críticas ou interpretações sobre o comportamento da pessoa. [cite_start]Separar observação de avaliação é o primeiro passo da CNV. [cite: 107, 108]
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="slide">
+            <div class="slide-content">
+                <h2>Os 4 Componentes na Prática</h2>
+                <h3>Exemplo 1: Interrupção em Reunião</h3>
+                <p style="text-align: center;"><strong>Comunicação Violenta:</strong> "Você pode parar de me interromper? É muito irritante!"</p>
+                <blockquote>
+                    [cite_start]"João, quando você interrompe a minha fala durante a reunião (Observação), me sinto desrespeitada e com raiva (Sentimento). Quero sentir que as minhas opiniões também possuem valor (Necessidade). Você poderia aguardar eu concluir a minha linha de pensamento para, depois disso, compartilhar a sua? (Pedido)". [cite: 160]
+                </blockquote>
+            </div>
+        </section>
+
+        <section class="slide">
+            <div class="slide-content">
+                <h3>Exemplo 2: Feedback no Trabalho</h3>
+                <p style="text-align: center;"><strong>Comunicação Violenta:</strong> "Você não prestou atenção? Este relatório está cheio de erros!"</p>
+                 <blockquote>
+                    "Ao ler o relatório que você enviou, notei algumas inconsistências nos dados da página 3 (Observação), e fico preocupado com isso (Sentimento), porque preciso que tenhamos precisão nas informações que passamos para a diretoria (Necessidade). Você poderia revisar esses pontos até o final da tarde? (Pedido)"
+                </blockquote>
+            </div>
+        </section>
+
+        <section class="slide">
+            <div class="slide-content">
+                <h3>Exemplo 3: Tarefas Domésticas</h3>
+                <p style="text-align: center;"><strong>Comunicação Violenta:</strong> "Você nunca faz nada para ajudar! Sou eu que faço tudo nesta casa."</p>
+                <blockquote>
+                    "Quando vejo a louça suja na pia ao final do dia (Observação), eu me sinto sobrecarregada e cansada (Sentimento). Preciso de apoio e colaboração para que o nosso lar seja um lugar agradável para nós (Necessidade). Você estaria disposto a ficar responsável por lavar a louça do jantar nos dias de semana? (Pedido)"
+                </blockquote>
+            </div>
+        </section>
+
+        <section class="slide">
+            <div class="slide-content">
+                <h3>Exemplo 4: Atrasos em Encontros</h3>
+                <p style="text-align: center;"><strong>Comunicação Violenta:</strong> "Você está atrasado de novo! Você não tem respeito pelo meu tempo."</p>
+                <blockquote>
+                   "Marcamos de nos encontrar às 14h e agora são 14h20 (Observação), e quando isso acontece, eu me sinto frustrada (Sentimento). Para mim, pontualidade é importante e preciso sentir que nosso tempo junto é valorizado (Necessidade). Você poderia me avisar com antecedência se perceber que vai se atrasar da próxima vez? (Pedido)"
+                </blockquote>
+            </div>
+        </section>
+
+        <section class="slide">
+            <div class="slide-content">
+                <h3>Exemplo 5: Tom de Voz em Discussão</h3>
+                <p style="text-align: center;"><strong>Comunicação Violenta:</strong> "Não grite comigo! Quem você pensa que é para falar nesse tom?"</p>
+                <blockquote>
+                    "Quando você fala nesse tom de voz mais alto (Observação), eu me sinto intimidado e com dificuldade para me concentrar (Sentimento). Eu preciso me sentir seguro e calmo para que a gente consiga ter uma conversa produtiva (Necessidade). Você poderia, por favor, falar um pouco mais baixo para que eu possa te ouvir melhor? (Pedido)"
+                </blockquote>
+            </div>
+        </section>
+        
+        <section class="slide">
+            <div class="slide-content">
+                <h3>Exemplo 6: Mudança de Escopo no Projeto</h3>
+                <p style="text-align: center;"><strong>Comunicação Violenta:</strong> "Você mudou tudo sem falar com ninguém! Agora o projeto virou um caos por sua culpa."</p>
+                 <blockquote>
+                    "Percebi que três novas funcionalidades foram adicionadas ao escopo do projeto (Observação) e fico apreensivo com isso (Sentimento), pois preciso de clareza para organizar minhas tarefas e garantir a qualidade da entrega (Necessidade). Poderíamos ter uma conversa com a equipe antes de adicionar novas demandas para avaliarmos o impacto juntos? (Pedido)"
+                </blockquote>
+            </div>
+        </section>
+
+
+        <section class="slide">
+            <div class="slide-content">
+                 <div class="quiz-container" id="quiz2">
+                    [cite_start]<p class="quiz-question">Qual frase abaixo transforma o julgamento "Você é muito egoísta!" em uma comunicação baseada nos 4 passos da CNV? [cite: 170]</p>
+                    <button class="quiz-option" data-correct="true">A) "Quando você decide sobre nossos planos de fim de semana sem me perguntar (Observação), eu me sinto triste (Sentimento), porque preciso de parceria (Necessidade). Podemos decidir juntos da próxima vez? (Pedido)"</button>
+                    <button class="quiz-option">B) "Eu me sinto mal porque você só pensa em si mesmo."</button>
+                    <button class="quiz-option">C) "Você nunca leva em consideração o que eu quero!"</button>
+                    <div class="quiz-feedback">
+                        <strong>Explicação:</strong> A opção A é a única que segue a estrutura completa: descreve um comportamento específico (Observação), expressa o sentimento gerado (Sentimento), revela a necessidade por trás dele (Necessidade) e finaliza com um pedido claro e positivo (Pedido). As outras opções ainda focam no julgamento do outro.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide">
+            <div class="slide-content">
+                <img src="https://images.squarespace-cdn.com/content/v1/5c253542266c07b6f4553535/1572911299946-86H39IHSOJ5E485A483E/Inteligencia-Emocional-Daniel-Goleman.jpg" alt="Capa do livro 'Inteligência Emocional' de Daniel Goleman.">
+                <h2>Aprofundando a Consciência Emocional</h2>
+                <p>Para aprimorar nossa comunicação, é essencial entender nossas emoções.</p>
+                <h3>Passo 1: Leitura Preparatória</h3>
+                <p>Leia o resumo do livro <strong>"Inteligência Emocional"</strong> de Daniel Goleman para compreender melhor como as emoções influenciam nosso comportamento.
+                <br>
+                <a href="https://tribodelideres.com/inteligencia-emocional-daniel-goleman/" target="_blank">Acesse o resumo aqui</a>.</p>
+                <h3>Passo 2: Prepare-se para o Jogo!</h3>
+                <p>Em nosso próximo encontro, aplicaremos os conceitos de CNV e Inteligência Emocional em um <strong>jogo interativo</strong> para praticar nossas habilidades.</p>
+            </div>
+        </section>
+
+    </div>
+
+    <div class="navigation-instructions" id="nav-instructions">
+        Use as setas ⬅️ e ➡️ para navegar
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            let currentSlide = 0;
+
+            const navInstructions = document.getElementById('nav-instructions');
+
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                });
+            }
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+                    e.preventDefault();
+                    nextSlide();
+                } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                    e.preventDefault();
+                    prevSlide();
+                }
+            });
+
+            // Lógica do Quiz
+            function handleQuiz(quizId) {
+                const quizContainer = document.getElementById(quizId);
+                const options = quizContainer.querySelectorAll('.quiz-option');
+                const feedback = quizContainer.querySelector('.quiz-feedback');
+
+                options.forEach(option => {
+                    option.addEventListener('click', () => {
+                        // Desabilita todos os botões após uma escolha
+                        options.forEach(opt => {
+                            opt.disabled = true;
+                            opt.style.cursor = 'not-allowed';
+                        });
+
+                        // Verifica a resposta
+                        if (option.hasAttribute('data-correct')) {
+                            option.style.backgroundColor = '#28a745'; // Verde
+                            option.style.borderColor = '#28a745';
+                            option.style.color = '#fff';
+                        } else {
+                            option.style.backgroundColor = '#dc3545'; // Vermelho
+                            option.style.borderColor = '#dc3545';
+                            option.style.color = '#fff';
+                            // Mostra a resposta correta
+                            const correctOption = quizContainer.querySelector('[data-correct="true"]');
+                            if (correctOption) {
+                                correctOption.style.backgroundColor = '#28a745';
+                                correctOption.style.borderColor = '#28a745';
+                                correctOption.style.color = '#fff';
+                            }
+                        }
+
+                        // Mostra o feedback
+                        if (feedback) {
+                            feedback.style.display = 'block';
+                        }
+                    });
+                });
+            }
+
+            handleQuiz('quiz1');
+            handleQuiz('quiz2');
+
+            // Esconde as instruções de navegação após alguns segundos
+            setTimeout(() => {
+                navInstructions.style.opacity = '0';
+            }, 4000);
+        });
+    </script>
+</body>
+</html>
