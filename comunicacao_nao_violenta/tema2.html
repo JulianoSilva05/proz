@@ -242,6 +242,24 @@
             font-size: 1em;
         }
 
+        /* ### NOVO: Estilo para o botão de reiniciar ### */
+        #restart-btn {
+            margin-top: 20px;
+            padding: 12px 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: var(--white);
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #restart-btn:hover {
+            background-color: #4a148c;
+        }
+
         /* CSS PARA RESPONSIVIDADE */
         @media (max-width: 900px) {
 
@@ -315,14 +333,14 @@
         <button id="next-arrow" class="nav-arrow">&rarr;</button>
 
         <section class="slide active">
-            <div class="slide-content">
-                <div class="image-content">
-                    <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                        alt="Equipe diversa colaborando em um escritório moderno.">
-                </div>
+            <div class="slide-content dual-pane">
                 <div class="text-content">
                     <h1>Exercitando a Comunicação Não Violenta</h1>
                     <h2>Disciplina: Educação Corporativa e Comportamental</h2>
+                </div>
+                <div class="image-content">
+                    <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        alt="Equipe diversa colaborando em um escritório moderno.">
                 </div>
             </div>
         </section>
@@ -346,11 +364,7 @@
         </section>
 
         <section class="slide">
-            <div class="slide-content">
-                <div class="image-content">
-                    <img src="https://images.pexels.com/photos/574282/pexels-photo-574282.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                        alt="Pessoa olhando para um nascer do sol, simbolizando reflexão.">
-                </div>
+            <div class="slide-content dual-pane">
                 <div class="text-content">
                     <h2>Como você chega para o nosso encontro de hoje?</h2>
                     <ul>
@@ -358,6 +372,10 @@
                         <li>Quais são suas intenções e metas para a semana?</li>
                         <li>O que você gostaria de celebrar?</li>
                     </ul>
+                </div>
+                <div class="image-content">
+                    <img src="https://images.pexels.com/photos/574282/pexels-photo-574282.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        alt="Pessoa olhando para um nascer do sol, simbolizando reflexão.">
                 </div>
             </div>
         </section>
@@ -559,6 +577,21 @@
             </div>
         </section>
 
+        <section class="slide">
+            <div class="slide-content">
+                <div class="image-content">
+                    <img src="https://images.pexels.com/photos/3184431/pexels-photo-3184431.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        alt="Equipe comemorando o sucesso.">
+                </div>
+                <div class="text-content">
+                    <h1>Fim da Apresentação</h1>
+                    <h2>Obrigado pela sua participação!</h2>
+                    <button id="restart-btn">Voltar ao Início</button>
+                </div>
+            </div>
+        </section>
+
+
     </div>
 
     <script>
@@ -567,6 +600,7 @@
             const prevArrow = document.getElementById('prev-arrow');
             const nextArrow = document.getElementById('next-arrow');
             const presentationContainer = document.querySelector('.presentation-container');
+            const restartBtn = document.getElementById('restart-btn'); // ### NOVO: Referência ao botão
             let currentSlide = 0;
 
             function showSlide(index) {
@@ -585,8 +619,15 @@
                 showSlide(currentSlide);
             }
 
+            // ### NOVO: Função para reiniciar ###
+            function restartPresentation() {
+                currentSlide = 0;
+                showSlide(currentSlide);
+            }
+
             prevArrow.addEventListener('click', prevSlide);
             nextArrow.addEventListener('click', nextSlide);
+            restartBtn.addEventListener('click', restartPresentation); // ### NOVO: Evento do botão
 
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'ArrowRight') { e.preventDefault(); nextSlide(); }
